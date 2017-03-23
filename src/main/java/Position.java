@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 /**
  * Created by Acerolla on 22.03.2017.
  */
-public class Position {
+public class Position{
 
     private Group node;
 
@@ -20,20 +20,21 @@ public class Position {
             startX,
             startY;
 
-    public Position(Pane root) {
+    public Position(Pane root, double x, double y) {
         try {
             this.root = root;
 
             node = FXMLLoader.load(getClass().getResource("position.fxml"));
+            node.setLayoutX(x);
+            node.setLayoutY(y);
             initialize();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     private void initialize() {
-        node.setLayoutX(250);
-        node.setLayoutY(250);
 
         contextMenu = new ContextMenuPosition(this);
 

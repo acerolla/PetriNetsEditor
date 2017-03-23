@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.scene.shape.*?>
+
+<Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="5.0" layoutY="4.0" prefHeight="6.0" prefWidth="55.0" text="Transition" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="101.0" layoutX="7.0" layoutY="21.0" stroke="BLACK" strokeType="INSIDE" width="25.0" />
+   </children>
+</Group>

@@ -7,14 +7,14 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-
 <Group xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Circle fill="WHITE" radius="42.0" stroke="BLACK" strokeType="INSIDE" />
-      <Label layoutX="-27.0" layoutY="-15.0" text="1">
+      <Label layoutX="-27.0" layoutY="-15.0" prefHeight="18.0" prefWidth="29.0" text="1">
          <graphic>
             <Circle radius="15.0" stroke="BLACK" strokeType="INSIDE" />
          </graphic>
       </Label>
+      <Label layoutX="-42.0" layoutY="-60.0" text="Position" />
    </children>
 </Group>

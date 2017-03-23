@@ -1,17 +1,11 @@
 import javafx.application.Application;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.MoveTo;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 
 /**
@@ -19,67 +13,47 @@ import javafx.stage.WindowEvent;
  */
 public class JavaFXTest extends Application{
 
-    private void changeText(Button button){
-        if (button.getText().equalsIgnoreCase("Click me")) {
-            button.setText("Thanks");
-        } else {
-            button.setText("Click me");
-        }
-    }
+    private Pane root;
+    private HBox hBox;
+    private VBox vBox;
+    private TabPane tabPane;
+    private ScrollPane scrollPane;
+    private AnchorPane pane;
+    private Tab tab;
 
     public void start(Stage primaryStage) throws Exception {
 
-        Pane pane = new Pane();
-        Scene scene = new Scene(pane, 100, 100);
-        primaryStage.setScene(scene);
+        primaryStage.setTitle("Petri Nets Editor");
+        primaryStage.setMinWidth(650);
+        primaryStage.setMinHeight(450);
+        root = FXMLLoader.load(getClass().getResource("panel.fxml"));
+
+        tabPane = (TabPane) root.getChildren().get(1);
+        tab = tabPane.getTabs().get(0);
+        scrollPane = (ScrollPane) tab.getContent();
+        pane = (AnchorPane) scrollPane.getContent();
+
+        pane.setPrefHeight(2000);
+        pane.setPrefWidth(5000);
 
 
-        final ContextMenu contextMenu = new ContextMenu();
-
-
-        MenuItem item1 = new MenuItem("About");
-        item1.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                System.out.println("About");
+        final Button btn = new Button("Click me!");
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                tab = new Tab("New Tab");
+                tab.setContent(new ScrollPane());
+                AnchorPane newPane = new AnchorPane();
+                ((ScrollPane)tab.getContent()).setContent(newPane);
+                newPane.setPrefSize(5000, 2000);
+                newPane.getChildren().add(btn);
+                tabPane.getTabs().add(tab);
             }
         });
-        final MenuItem item2 = new MenuItem("Preferences");
-        item2.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e) {
-                System.out.println("Preferences");
-
-            }
-        });
-        contextMenu.getItems().addAll(item1, item2);
+        pane.getChildren().add(btn);
 
 
 
-
-        final Button button = new Button("Click me");
-        button.setLayoutX(40);
-        button.setLayoutY(40);
-        button.setContextMenu(contextMenu);
-        button.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                if (event.getButton() == MouseButton.PRIMARY) {
-                    changeText(button);
-                } else if (event.getButton() == MouseButton.SECONDARY){
-
-                } else {
-                    new Alert(Alert.AlertType.INFORMATION, "Another action").show();
-                }
-            }
-        });
-        button.setPrefSize(70, 20);
-        Label label = new Label ("Don't touch it");
-        label.setContextMenu(contextMenu);
-
-
-
-
-        pane.getChildren().addAll(label, button);
-
-
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
