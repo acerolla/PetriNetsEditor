@@ -1,6 +1,6 @@
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
+package GUI;
+
+import GUI.PlaceWithGUI;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -10,9 +10,9 @@ import javafx.scene.control.MenuItem;
  */
 public class ContextMenuPosition extends ContextMenu {
 
-    private Position parent;
+    private PlaceWithGUI parent;
 
-    public ContextMenuPosition(Position parent) {
+    public ContextMenuPosition(PlaceWithGUI parent) {
         super();
         this.parent = parent;
         initialize();

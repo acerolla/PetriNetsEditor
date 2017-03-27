@@ -1,3 +1,5 @@
+package GUI;
+
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -5,10 +7,12 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
+import java.net.URL;
+
 /**
  * Created by Acerolla on 22.03.2017.
  */
-public class Position{
+public class PlaceWithGUI {
 
     private Group node;
 
@@ -20,11 +24,16 @@ public class Position{
             startX,
             startY;
 
-    public Position(Pane root, double x, double y) {
+    public PlaceWithGUI(Pane root, double x, double y) {
         try {
             this.root = root;
 
-            node = FXMLLoader.load(getClass().getResource("position.fxml"));
+            //node = FXMLLoader.load(getClass().getResource("GUI/place.fxml"));
+            node = FXMLLoader.load(new URL(
+                    "file",
+                    "",
+                    -1,
+                    "src\\main\\resources\\GUI\\place.fxml"));
             node.setLayoutX(x);
             node.setLayoutY(y);
             initialize();

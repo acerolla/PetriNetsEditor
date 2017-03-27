@@ -1,3 +1,6 @@
+package GUI;
+
+import GUI.TransitionWithGUI;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -7,9 +10,9 @@ import javafx.scene.control.MenuItem;
  */
 public class ContextMenuTransition extends ContextMenu{
 
-    private Transition parent;
+    private TransitionWithGUI parent;
 
-    public ContextMenuTransition(Transition parent) {
+    public ContextMenuTransition(TransitionWithGUI parent) {
         super();
         this.parent = parent;
         initialize();

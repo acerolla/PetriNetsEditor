@@ -1,3 +1,5 @@
+package GUI;
+
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -5,10 +7,12 @@ import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
+import java.net.URL;
+
 /**
  * Created by Acerolla on 22.03.2017.
  */
-public class Transition {
+public class TransitionWithGUI {
 
     private Group node;
 
@@ -20,11 +24,16 @@ public class Transition {
             startX,
             startY;
 
-    public Transition(Pane root, double x, double y) {
+    public TransitionWithGUI(Pane root, double x, double y) {
         try {
             this.root = root;
 
-            node = FXMLLoader.load(getClass().getResource("transition.fxml"));
+            //node = FXMLLoader.load(getClass().getResource("GUI/transition.fxml"));
+            node = FXMLLoader.load(new URL(
+                    "file",
+                    "",
+                    -1,
+                    "src\\main\\resources\\GUI\\transition.fxml"));
             node.setLayoutX(x);
             node.setLayoutY(y);
             initialize();

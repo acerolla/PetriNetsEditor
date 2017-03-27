@@ -1,13 +1,18 @@
+package GUI;
+
+import GUI.PlaceWithGUI;
+import GUI.TransitionWithGUI;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
+import java.net.URL;
 
 /**
  * Created by Acerolla on 21.03.2017.
@@ -31,7 +36,14 @@ public class MainPanel extends Application {
         primaryStage.setMinWidth(650);
         primaryStage.setMinHeight(450);
 
-        root = FXMLLoader.load(getClass().getResource("panel.fxml"));
+
+        //root = FXMLLoader.load(getClass().getResource("GUI/panel.fxml"));
+        root = FXMLLoader.load(new URL(
+                "file",
+                "",
+                -1,
+                "src\\main\\resources\\GUI\\panel.fxml"));
+
 
         tabPane = (TabPane) root.getChildren().get(1);
         tab = tabPane.getTabs().get(0);
@@ -46,11 +58,11 @@ public class MainPanel extends Application {
             public void handle(MouseEvent event) {
                 if (event.getClickCount() == 2) {
                     if (posFlag) {
-                        Position pos = new Position(pane, event.getX(), event.getY());
+                        PlaceWithGUI pos = new PlaceWithGUI(pane, event.getX(), event.getY());
                         pane.getChildren().addAll(pos.getNode());
                         posFlag = false;
                     } else if (transFlag) {
-                        Transition trans = new Transition(pane, event.getX(), event.getY() - 20);
+                        TransitionWithGUI trans = new TransitionWithGUI(pane, event.getX(), event.getY() - 20);
                         pane.getChildren().addAll(trans.getNode());
                         transFlag = false;
                     }
@@ -62,7 +74,7 @@ public class MainPanel extends Application {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 posFlag = true;
-                //Position pos = new Position(pane, 150, 300);
+                //GUI.PlaceWithGUI pos = new GUI.PlaceWithGUI(pane, 150, 300);
                 //pane.getChildren().addAll(pos.getNode());
             }
         });
@@ -72,7 +84,7 @@ public class MainPanel extends Application {
         btn1.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 transFlag = true;
-                //Transition trans = new Transition(pane, 150, 300);
+                //GUI.TransitionWithGUI trans = new GUI.TransitionWithGUI(pane, 150, 300);
                 //pane.getChildren().addAll(trans.getNode());
             }
         });

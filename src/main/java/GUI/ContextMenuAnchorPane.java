@@ -1,3 +1,5 @@
+package GUI;
+
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -26,17 +28,17 @@ public class ContextMenuAnchorPane extends ContextMenu {
 
     private void initialize() {
         Menu addMenu = new Menu("Add");
-        MenuItem itemAddPosition = new MenuItem("Add Position Node");
+        MenuItem itemAddPosition = new MenuItem("Add GUI.PlaceWithGUI Node");
         itemAddPosition.addEventHandler(EventType.ROOT, new EventHandler<Event>() {
             public void handle(Event event) {
-                Position pos = new Position(parent, screenX, screenY);
+                PlaceWithGUI pos = new PlaceWithGUI(parent, screenX, screenY);
                 parent.getChildren().addAll(pos.getNode());
             }
         });
-        MenuItem itemAddTransition = new MenuItem("Add Transition Node");
+        MenuItem itemAddTransition = new MenuItem("Add GUI.TransitionWithGUI Node");
         itemAddTransition.addEventHandler(EventType.ROOT, new EventHandler<Event>() {
             public void handle(Event event) {
-                Transition trans = new Transition(parent, screenX, screenY);
+                TransitionWithGUI trans = new TransitionWithGUI(parent, screenX, screenY);
                 parent.getChildren().addAll(trans.getNode());
             }
         });

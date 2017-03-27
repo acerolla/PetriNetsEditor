@@ -26,7 +26,7 @@ public class JavaFXTest extends Application{
         primaryStage.setTitle("Petri Nets Editor");
         primaryStage.setMinWidth(650);
         primaryStage.setMinHeight(450);
-        root = FXMLLoader.load(getClass().getResource("panel.fxml"));
+        root = FXMLLoader.load(getClass().getResource("GUI/panel.fxml"));
 
         tabPane = (TabPane) root.getChildren().get(1);
         tab = tabPane.getTabs().get(0);
