@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,6 +10,13 @@ public abstract class Node {
 
     private List<Arc> arcs;
 
+    private int id;
+    private String label;
+
+    Node(int id) {
+        this.id = id;
+        arcs = new ArrayList<Arc>();
+    }
 
     public List<Arc> getArcs() {
         return arcs;
@@ -18,7 +26,19 @@ public abstract class Node {
         arcs.add(arc);
     }
 
-    public void setArcs(List<Arc> arcs) {
-        this.arcs = arcs;
+    public void removeArc(Arc arc) {
+        arcs.remove(arc);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

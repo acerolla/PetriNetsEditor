@@ -9,8 +9,8 @@ public class Place extends Node {
 
     private List<Token> tokens;
 
-    public Place() {
-
+    public Place(int id) {
+        super(id);
     }
 
     public void addToken(Token token) {
@@ -19,5 +19,9 @@ public class Place extends Node {
 
     public List<Token> getTokens() {
         return tokens;
+    }
+
+    public void removeToken(Token token) {
+        tokens.remove(token);
     }
 }
