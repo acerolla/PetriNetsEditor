@@ -1,6 +1,8 @@
 import com.thoughtworks.xstream.XStream;
 import model.Net;
+import parser.Reader;
 
+import java.io.File;
 import java.io.FileInputStream;
 
 /**
@@ -9,15 +11,10 @@ import java.io.FileInputStream;
 public class TestSerialize {
     public static void main(String[] args) {
 
-        XStream xs = new XStream();
+
         Net net = new Net();
 
-        try {
-            FileInputStream fis = new FileInputStream("D://temp.xml");
-            xs.fromXML(fis, net);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+        Reader.read(new File("temp.xml"), net);
 
 
         System.out.println("Break");

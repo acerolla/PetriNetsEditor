@@ -9,5 +9,4 @@ public class Transition extends Node {
         super(id);
     }
 
-
 }

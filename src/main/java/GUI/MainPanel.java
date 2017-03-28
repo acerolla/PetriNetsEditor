@@ -21,7 +21,6 @@ public class MainPanel extends Application {
 
     private Pane root;
     private HBox hBox;
-    private VBox vBox;
     private TabPane tabPane;
     private ScrollPane scrollPane;
     private AnchorPane pane;
@@ -45,7 +44,7 @@ public class MainPanel extends Application {
                 "src\\main\\resources\\GUI\\panel.fxml"));
 
 
-        tabPane = (TabPane) root.getChildren().get(1);
+        tabPane = (TabPane) root.getChildren().get(0);
         tab = tabPane.getTabs().get(0);
         scrollPane = (ScrollPane) tab.getContent();
         pane = (AnchorPane) scrollPane.getContent();
@@ -62,7 +61,7 @@ public class MainPanel extends Application {
                         pane.getChildren().addAll(pos.getNode());
                         posFlag = false;
                     } else if (transFlag) {
-                        TransitionWithGUI trans = new TransitionWithGUI(pane, event.getX(), event.getY() - 20);
+                        TransitionWithGUI trans = new TransitionWithGUI(pane, event.getX() - 20, event.getY() - 50);
                         pane.getChildren().addAll(trans.getNode());
                         transFlag = false;
                     }
@@ -70,7 +69,8 @@ public class MainPanel extends Application {
             }
         });
 
-        final Button btn = new Button("Click me Pos!");
+        //((HBox)((BorderPane)root.getChildren().get(1)).getChildren().get(1)).getChildren().get(1);
+        final Button btn = (Button) ((HBox)((BorderPane)root.getChildren().get(1)).getChildren().get(1)).getChildren().get(0);
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 posFlag = true;
@@ -78,9 +78,9 @@ public class MainPanel extends Application {
                 //pane.getChildren().addAll(pos.getNode());
             }
         });
-        pane.getChildren().add(btn);
+        //pane.getChildren().add(btn);
 
-        final Button btn1 = new Button("Click me Trans!");
+        final Button btn1 = (Button) ((HBox)((BorderPane)root.getChildren().get(1)).getChildren().get(1)).getChildren().get(1);
         btn1.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 transFlag = true;
@@ -88,8 +88,8 @@ public class MainPanel extends Application {
                 //pane.getChildren().addAll(trans.getNode());
             }
         });
-        btn1.setLayoutX(100);
-        pane.getChildren().add(btn1);
+        //btn1.setLayoutX(100);
+        //pane.getChildren().add(btn1);
 
 
 

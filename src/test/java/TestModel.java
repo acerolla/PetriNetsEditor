@@ -1,5 +1,6 @@
 import com.thoughtworks.xstream.XStream;
 import model.*;
+import parser.Writer;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,7 +42,7 @@ public class TestModel {
         }
         net.removeNode(n3);
 
-        Place pl =(Place) net.getNodes().get(0);
+        /*Place pl =(Place) net.getNodes().get(0);
         pl.addToken(new NetToken());
         NetToken nt = (NetToken) pl.getTokens().get(0);
         System.out.println(nt.getInnerNet());
@@ -53,17 +54,9 @@ public class TestModel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+*/
 
-
-        XStream xs = new XStream();
-
-        try {
-            FileOutputStream fos = new FileOutputStream(new File("D://temp.xml"));
-            xs.toXML(net, fos);
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        Writer.write(new File("temp.xml"), net);
         System.out.print("Break");
 
     }
