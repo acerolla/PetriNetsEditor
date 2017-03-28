@@ -1,0 +1,68 @@
+<model.Net>
+  <nodes>
+    <model.Place>
+      <arcs>
+        <model.Arc>
+          <source class="model.Place" reference="../../.."/>
+          <target class="model.Transition">
+            <arcs>
+              <model.Arc>
+                <source class="model.Transition" reference="../../.."/>
+                <target class="model.Place">
+                  <arcs>
+                    <model.Arc>
+                      <source class="model.Place" reference="../../.."/>
+                      <target class="model.Transition">
+                        <arcs>
+                          <model.Arc>
+                            <source class="model.Transition" reference="../../.."/>
+                            <target class="model.Place">
+                              <arcs/>
+                              <id>5</id>
+                              <tokens/>
+                            </target>
+                          </model.Arc>
+                        </arcs>
+                        <id>4</id>
+                      </target>
+                    </model.Arc>
+                  </arcs>
+                  <id>2</id>
+                  <tokens/>
+                </target>
+              </model.Arc>
+            </arcs>
+            <id>1</id>
+          </target>
+        </model.Arc>
+      </arcs>
+      <id>0</id>
+      <tokens>
+        <model.NetToken>
+          <innerNet>
+            <nodes>
+              <model.Place>
+                <arcs>
+                  <model.Arc>
+                    <source class="model.Place" reference="../../.."/>
+                    <target class="model.Transition">
+                      <arcs/>
+                      <id>7</id>
+                    </target>
+                  </model.Arc>
+                </arcs>
+                <id>6</id>
+                <tokens/>
+              </model.Place>
+              <model.Transition reference="../model.Place/arcs/model.Arc/target"/>
+            </nodes>
+          </innerNet>
+        </model.NetToken>
+      </tokens>
+    </model.Place>
+    <model.Transition reference="../model.Place/arcs/model.Arc/target"/>
+    <model.Place reference="../model.Place/arcs/model.Arc/target/arcs/model.Arc/target"/>
+    <model.Transition reference="../model.Place/arcs/model.Arc/target/arcs/model.Arc/target/arcs/model.Arc/target"/>
+    <model.Place reference="../model.Place/arcs/model.Arc/target/arcs/model.Arc/target/arcs/model.Arc/target/arcs/model.Arc/target"/>
+  </nodes>
+</model.Net>
