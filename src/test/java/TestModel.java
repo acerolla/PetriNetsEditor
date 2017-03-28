@@ -27,21 +27,32 @@ public class TestModel {
         net.addNode(n5);
 
         try {
-            net.setRelations(n0, n1);
-            net.setRelations(n1, n2);
-            net.setRelations(n1, n3);
-            net.setRelations(n2, n4);
-            net.setRelations(n3, n4);
-            net.setRelations(n4, n5);
+            net.setRelation(n0, n1);
+            net.setRelation(n1, n2);
+            net.setRelation(n1, n3);
+            net.setRelation(n2, n4);
+            net.setRelation(n3, n4);
+            net.setRelation(n4, n5);
         } catch (Exception e) {
             e.printStackTrace();
         }
         net.removeNode(n3);
-        //n1.getArcs();
+
+        Place pl =(Place) net.getNodes().get(0);
+        pl.addToken(new NetToken());
+        NetToken nt = (NetToken) pl.getTokens().get(0);
+        nt.setInnerNet(new Net());
+        nt.getInnerNet().addNode(new Place(6));
+        nt.getInnerNet().addNode(new Transition(7));
+        try {
+            nt.getInnerNet().setRelation(nt.getInnerNet().getNodes().get(0), nt.getInnerNet().getNodes().get(1));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
 
         System.out.print("Break");
-
-
 
     }
 }

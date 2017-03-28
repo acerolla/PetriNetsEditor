@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +12,7 @@ public class Place extends Node {
 
     public Place(int id) {
         super(id);
+        tokens = new ArrayList<Token>();
     }
 
     public void addToken(Token token) {

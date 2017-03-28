@@ -18,8 +18,14 @@ public class Net {
         nodes.add(node);
     }
 
-    public void setRelations(Node source, Node target) throws Exception {
+    public void setRelation(Node source, Node target) throws Exception {
         source.addArc(new Arc(source, target));
+    }
+
+    public void removeRelation(Arc arc) {
+        for (Node node : nodes) {
+            node.removeArc(arc);
+        }
     }
 
     public void removeNode(Node node) {
@@ -34,8 +40,9 @@ public class Net {
             tempNode.removeArc(tempArc);
         }
         nodes.remove(node);
-
     }
+
+
 
     public List<Node> getNodes() {
         return nodes;
