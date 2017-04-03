@@ -3,9 +3,11 @@ package GUI;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import model.Transition;
 
 import java.net.URL;
 
@@ -19,12 +21,14 @@ public class TransitionWithGUI {
     private Pane root;
     ContextMenuTransition contextMenu;
 
+    private Transition transition;
+
     private boolean isDragDetected;
     private double
             startX,
             startY;
 
-    public TransitionWithGUI(Pane root, double x, double y) {
+    public TransitionWithGUI(Pane root, Transition transition) {
         try {
             this.root = root;
 
@@ -34,8 +38,12 @@ public class TransitionWithGUI {
                     "",
                     -1,
                     "src\\main\\resources\\GUI\\transition.fxml"));
-            node.setLayoutX(x);
-            node.setLayoutY(y);
+            this.transition = transition;
+            node.setLayoutX(this.transition.getStartPoint().getX());
+            node.setLayoutY(this.transition.getStartPoint().getY());
+
+            ((Label)node.getChildren().get(0)).setText("T" + this.transition.getId());
+
             initialize();
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,7 +54,7 @@ public class TransitionWithGUI {
     private void initialize() {
 
 
-        contextMenu = new ContextMenuTransition(this);
+        //contextMenu = new ContextMenuTransition(this);
 
         node.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
             public void handle(ContextMenuEvent event) {
@@ -64,7 +72,7 @@ public class TransitionWithGUI {
         node.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 isDragDetected = true;
-                System.out.println("DRAGGED");
+                //System.out.println("DRAGGED");
 
                 /*
                 if (pane.getPrefWidth() - 200 < event.getSceneX()) {
@@ -80,10 +88,12 @@ public class TransitionWithGUI {
                 if (isDragDetected) {
                     node.setLayoutX(event.getSceneX() - startX);
                     node.setLayoutY(event.getSceneY() - startY);
+
                     isDragDetected = false;
                 }
-
-                System.out.println("RELEASE");
+                //just for fun;
+                int i = 0;
+                //System.out.println("RELEASE");
             }
         });
         node.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
@@ -94,7 +104,7 @@ public class TransitionWithGUI {
 
 
 
-                System.out.println("PRESSED");
+                //System.out.println("PRESSED");
             }
         });
         node.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -103,12 +113,14 @@ public class TransitionWithGUI {
                 //btn.setLayoutY(btn.getLayoutX() + 150);
                 //pane.setPrefWidth(btn.getLayoutX() + btn.getWidth());
                 //pane.setPrefHeight(btn.getLayoutY() + btn.getHeight());
-                System.out.println("CLICKED");
+                //System.out.println("CLICKED");
             }
         });
     }
 
-
+    public Transition getTransition() {
+        return transition;
+    }
 
     public Group getNode() {
         return node;

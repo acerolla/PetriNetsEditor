@@ -13,9 +13,19 @@ public abstract class Node {
     private int id;
     private String label;
 
+    private Point startPoint;
+
     Node(int id) {
         this.id = id;
         arcs = new ArrayList<Arc>();
+    }
+
+    public void setStartPoint(Point point) {
+        this.startPoint = point;
+    }
+
+    public Point getStartPoint() {
+        return startPoint;
     }
 
     public List<Arc> getArcs() {
@@ -29,6 +39,8 @@ public abstract class Node {
     public void removeArc(Arc arc) {
         arcs.remove(arc);
     }
+
+
 
     public int getId() {
         return id;

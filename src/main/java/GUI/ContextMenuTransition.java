@@ -10,9 +10,9 @@ import javafx.scene.control.MenuItem;
  */
 public class ContextMenuTransition extends ContextMenu{
 
-    private TransitionWithGUI parent;
+    private TransitionGUI parent;
 
-    public ContextMenuTransition(TransitionWithGUI parent) {
+    public ContextMenuTransition(TransitionGUI parent) {
         super();
         this.parent = parent;
         initialize();
@@ -26,5 +26,6 @@ public class ContextMenuTransition extends ContextMenu{
 
         this.getItems().addAll(removeMenu);
     }
+
 
 }

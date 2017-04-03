@@ -8,11 +8,11 @@ import javafx.scene.control.MenuItem;
 /**
  * Created by Acerolla on 22.03.2017.
  */
-public class ContextMenuPosition extends ContextMenu {
+public class ContextMenuPlace extends ContextMenu {
 
-    private PlaceWithGUI parent;
+    private PlaceGUI parent;
 
-    public ContextMenuPosition(PlaceWithGUI parent) {
+    public ContextMenuPlace(PlaceGUI parent) {
         super();
         this.parent = parent;
         initialize();

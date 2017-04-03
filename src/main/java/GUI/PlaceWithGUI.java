@@ -3,9 +3,12 @@ package GUI;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
+import model.Place;
 
 import java.net.URL;
 
@@ -17,14 +20,16 @@ public class PlaceWithGUI {
     private Group node;
 
     private Pane root;
-    ContextMenuPosition contextMenu;
+    ContextMenuPlace contextMenu;
+
+    private Place place;
 
     private boolean isDragDetected;
     private double
             startX,
             startY;
 
-    public PlaceWithGUI(Pane root, double x, double y) {
+    public PlaceWithGUI(Pane root, Place place) {
         try {
             this.root = root;
 
@@ -34,8 +39,12 @@ public class PlaceWithGUI {
                     "",
                     -1,
                     "src\\main\\resources\\GUI\\place.fxml"));
-            node.setLayoutX(x);
-            node.setLayoutY(y);
+            this.place = place;
+            node.setLayoutX(this.place.getStartPoint().getX());
+            node.setLayoutY(this.place.getStartPoint().getY());
+
+            ((Label) node.getChildren().get(2)).setText("P" + this.place.getId());
+
             initialize();
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +54,7 @@ public class PlaceWithGUI {
 
     private void initialize() {
 
-        contextMenu = new ContextMenuPosition(this);
+        //contextMenu = new ContextMenuPlace(this);
 
         node.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
             public void handle(ContextMenuEvent event) {
@@ -56,7 +65,7 @@ public class PlaceWithGUI {
         node.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 isDragDetected = true;
-                System.out.println("DRAGGED");
+                //System.out.println("DRAGGED");
 
                 /*
                 if (pane.getPrefWidth() - 200 < event.getSceneX()) {
@@ -74,7 +83,7 @@ public class PlaceWithGUI {
                     node.setLayoutY(event.getSceneY() - startY);
                     isDragDetected = false;
                 }
-                System.out.println("RELEASED");
+                //System.out.println("RELEASED");
             }
         });
         node.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
@@ -85,7 +94,7 @@ public class PlaceWithGUI {
 
 
 
-                System.out.println("PRESSED");
+                //System.out.println("PRESSED");
             }
         });
         node.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -94,12 +103,14 @@ public class PlaceWithGUI {
                 //btn.setLayoutY(btn.getLayoutX() + 150);
                 //pane.setPrefWidth(btn.getLayoutX() + btn.getWidth());
                 //pane.setPrefHeight(btn.getLayoutY() + btn.getHeight());
-                System.out.println("CLICKED");
+                //System.out.println("CLICKED");
             }
         });
     }
 
-
+    public Place getPlace() {
+        return place;
+    }
 
     public Group getNode() {
         return node;

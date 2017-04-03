@@ -31,15 +31,15 @@ public class ContextMenuAnchorPane extends ContextMenu {
         MenuItem itemAddPosition = new MenuItem("Add GUI.PlaceWithGUI Node");
         itemAddPosition.addEventHandler(EventType.ROOT, new EventHandler<Event>() {
             public void handle(Event event) {
-                PlaceWithGUI pos = new PlaceWithGUI(parent, screenX, screenY);
-                parent.getChildren().addAll(pos.getNode());
+                //PlaceWithGUI pos = new PlaceWithGUI(parent, screenX, screenY);
+                //parent.getChildren().addAll(pos.getNode());
             }
         });
         MenuItem itemAddTransition = new MenuItem("Add GUI.TransitionWithGUI Node");
         itemAddTransition.addEventHandler(EventType.ROOT, new EventHandler<Event>() {
             public void handle(Event event) {
-                TransitionWithGUI trans = new TransitionWithGUI(parent, screenX, screenY);
-                parent.getChildren().addAll(trans.getNode());
+                //TransitionWithGUI trans = new TransitionWithGUI(parent, screenX, screenY);
+                //parent.getChildren().addAll(trans.getNode());
             }
         });
 
