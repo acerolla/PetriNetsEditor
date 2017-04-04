@@ -133,6 +133,7 @@ public class MainPanel extends Application {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 placeFlag = true;
+                transFlag = false;
 
             }
         });
@@ -141,6 +142,7 @@ public class MainPanel extends Application {
         btn1.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 transFlag = true;
+                placeFlag = false;
 
             }
         });

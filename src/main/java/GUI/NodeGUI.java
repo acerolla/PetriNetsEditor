@@ -3,6 +3,7 @@ package GUI;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import model.Node;
@@ -36,6 +37,14 @@ public abstract class NodeGUI {
         root.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 isDragDetected = true;
+
+
+                root.setLayoutX(event.getSceneX() - startX);
+                root.setLayoutY(event.getSceneY() - startY);
+
+                node.setStartPoint(new Point(root.getLayoutX(), root.getLayoutY()));
+
+                mainPanel.redrawArc(self);
                 //System.out.println("DRAGGED");
 
                 /*
@@ -51,12 +60,13 @@ public abstract class NodeGUI {
         root.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if (isDragDetected) {
-                    root.setLayoutX(event.getSceneX() - startX);
-                    root.setLayoutY(event.getSceneY() - startY);
-                    node.setStartPoint(new Point(root.getLayoutX(), root.getLayoutY()));
-                    mainPanel.redrawArc(self);
+                    //root.setLayoutX(event.getSceneX() - startX);
+                    //root.setLayoutY(event.getSceneY() - startY);
+
+
                     isDragDetected = Boolean.FALSE;
-                } else {
+                } else if (event.getButton() == MouseButton.PRIMARY) {
+
                     mainPanel.tryToLink(self);
                 }
                 //System.out.println("RELEASED");
