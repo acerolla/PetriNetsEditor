@@ -1,6 +1,8 @@
 package GUI;
 
 import GUI.TransitionWithGUI;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -21,6 +23,11 @@ public class ContextMenuTransition extends ContextMenu{
     private void initialize() {
         Menu removeMenu = new Menu("Remove");
         MenuItem itemSelfRemove = new MenuItem("Remove This Node");
+        itemSelfRemove.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                parent.removeNode();
+            }
+        });
 
         removeMenu.getItems().addAll(itemSelfRemove);
 

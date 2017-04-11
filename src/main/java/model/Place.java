@@ -9,7 +9,6 @@ import java.util.List;
 public class Place extends Node {
 
     private List<Token> tokens;
-
     public Place(int id) {
         super(id);
         tokens = new ArrayList<Token>();

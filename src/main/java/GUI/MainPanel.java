@@ -1,9 +1,8 @@
 package GUI;
 
-import GUI.PlaceWithGUI;
-import GUI.TransitionWithGUI;
-import com.sun.javafx.scene.control.skin.LabeledText;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +10,6 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import model.*;
 import model.Arc;
@@ -26,43 +24,22 @@ import java.util.List;
 public class MainPanel extends Application {
 
     private Pane root;
-    private HBox hBox;
+
     private TabPane tabPane;
-    private ScrollPane scrollPane;
-    private AnchorPane pane;
-    private Tab tab;
+
 
     private TreeView<String> treeView;
     private TreeItem<String> rootItem;
 
-    List<NodeGUI> listNodes;
-    List<ArcWithGUI> listArcs;
+    TabExtension activeTab;
 
-    private boolean placeFlag;
-    private boolean transFlag;
 
-    private Net outerNet;
-
-    private int placeId,
-                transitionId;
-
-    private boolean isClicked;
-    private NodeGUI firstNode;
-
-    private MainPanel self;
 
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Petri Nets Editor");
         primaryStage.setMinWidth(650);
         primaryStage.setMinHeight(450);
 
-        self = this;
-        listNodes = new ArrayList<NodeGUI>();
-        listArcs = new ArrayList<ArcWithGUI>();
-
-        outerNet = new Net();
-        placeId = 0;
-        transitionId = 0;
 
 
         root = FXMLLoader.load(new URL(
@@ -73,143 +50,64 @@ public class MainPanel extends Application {
 
 
         tabPane = (TabPane) ((BorderPane) root.getChildren().get(0)).getChildren().get(0);
-        tab = tabPane.getTabs().get(0);
-        scrollPane = (ScrollPane) tab.getContent();
-        pane = (AnchorPane) scrollPane.getContent();
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
 
-        pane.setPrefHeight(2000);
-        pane.setPrefWidth(5000);
+        tabPane.getTabs().clear();
+
+        activeTab = new TabExtension();
+        activeTab.setText("Outer Net");
+        activeTab.setClosable(false);
+        tabPane.getTabs().add(activeTab);
 
         treeView = (TreeView<String>) root.getChildren().get(2);
         rootItem = new TreeItem<String>("Outer Net");
         rootItem.setExpanded(true);
         treeView.setRoot(rootItem);
+        ContextMenuTreeItem cmti = new ContextMenuTreeItem(treeView);
 
 
 
 
-
-
-
-        pane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                if (event.getClickCount() == 1) {
-                    if (placeFlag) {
-                        placeId ++ ;
-                        Place pl = new Place(placeId);
-                        pl.setStartPoint(new Point(event.getX(), event.getY()));
-
-                        PlaceGUI place = new PlaceGUI(self, pl);
-                        pane.getChildren().addAll(place.getRoot());
-
-                        listNodes.add(place);
-
-                        outerNet.addNode(pl);
-                        rootItem.getChildren().add(new TreeItem<String>("P" + placeId));
-
-                        placeFlag = false;
-                    } else if (transFlag) {
-                        transitionId ++ ;
-                        Transition tr = new Transition(transitionId);
-                        tr.setStartPoint(new Point(event.getX(), event.getY()));
-
-                        TransitionGUI transition = new TransitionGUI(self, tr);
-                        pane.getChildren().addAll(transition.getRoot());
-
-                        listNodes.add(transition);
-
-                        outerNet.addNode(tr);
-
-                        transFlag = false;
-                    }
-                }
-            }
-        });
-
-
-
-
-        final Button btn = (Button) ((HBox)((BorderPane)root.getChildren().get(0)).getChildren().get(1)).getChildren().get(0);
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                placeFlag = true;
-                transFlag = false;
-
-            }
-        });
-
-        final Button btn1 = (Button) ((HBox)((BorderPane)root.getChildren().get(0)).getChildren().get(1)).getChildren().get(1);
+        final Button btn1 = (Button) ((HBox)((BorderPane)root.getChildren().get(0)).getChildren().get(1)).getChildren().get(0);
         btn1.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                transFlag = true;
-                placeFlag = false;
+
+                activeTab.addPlaceClicked();
 
             }
         });
 
+        final Button btn2 = (Button) ((HBox)((BorderPane)root.getChildren().get(0)).getChildren().get(1)).getChildren().get(1);
+        btn2.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
 
+                activeTab.addTransitionClicked();
+            }
+        });
+
+        Button btn = new Button("click me");
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                int i = 0;
+            }
+        });
+        activeTab.getAnchorPane().getChildren().add(btn);
+
+
+        tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+            public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+                activeTab = (TabExtension) newValue;
+            }
+        });
 
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
-    public void tryToLink(NodeGUI node) {
-        if (!isClicked) {
-            System.out.println("1st time");
-            firstNode = node;
-            isClicked = Boolean.TRUE;
-        } else {
-            System.out.println("2nd time");
-            try {
-                Arc arc = new Arc(firstNode.getNode(), node.getNode());
-                firstNode.getNode().addArc(arc);
-                ArcWithGUI arcWithGUI = new ArcWithGUI(pane, arc);
-                listArcs.add(arcWithGUI);
-                pane.getChildren().add(arcWithGUI.getLine());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            isClicked = Boolean.FALSE;
-        }
+
+    public TabPane getTabPane() {
+        return tabPane;
     }
-/*
-    public void redrawArc(NodeGUI node) {
-        for (NodeGUI element : listNodes) {
-            for (Arc arc : element.getNode().getArcs()) {
-                if (arc.getTarget() == node.getNode()) {
-                    for (ArcWithGUI arcWithGUI : listArcs) {
-                        if (arcWithGUI.getArc() == arc) {
-                            arcWithGUI.getLine().setEndX(node.getRoot().getLayoutX());
-                            arcWithGUI.getLine().setEndY(node.getRoot().getLayoutY());
-                        }
-                    }
-                } else if (arc.getSource() == node.getNode()) {
-                    for (ArcWithGUI arcWithGUI : listArcs) {
-                        if (arcWithGUI.getArc() == arc) {
-                            arcWithGUI.getLine().setStartX(node.getRoot().getLayoutX());
-                            arcWithGUI.getLine().setStartY(node.getRoot().getLayoutY());
-                        }
-                    }
-                }
-            }
-        }
-    }*/
-
-    public void redrawArc(NodeGUI node) {
-        for (NodeGUI element : listNodes) {
-            for (Arc arc : element.getNode().getArcs()) {
-                if (arc.getTarget() == node.getNode() || arc.getSource() == node.getNode()) {
-                    for (ArcWithGUI arcWithGUI : listArcs) {
-                        if (arcWithGUI.getArc() == arc) {
-                            arcWithGUI.drawArrow(arc.getSource().getStartPoint(), arc.getTarget().getStartPoint());
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
 
     public static void main(String[] args) {
         launch(args);

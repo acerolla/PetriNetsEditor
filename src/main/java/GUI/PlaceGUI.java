@@ -2,14 +2,17 @@ package GUI;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeType;
-import model.Node;
-import model.Place;
+import model.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Acerolla on 03.04.2017.
@@ -23,9 +26,13 @@ public class PlaceGUI extends NodeGUI {
 
     private ContextMenuPlace contextMenu;
 
+    private int countNetToken,
+                countBasicToken;
 
-    public PlaceGUI(MainPanel mainPanel, Node node) {
-        super(mainPanel, node);
+
+
+    public PlaceGUI(TabExtension tabExtension, Node node) {
+        super(tabExtension, node);
 
 
 
@@ -47,6 +54,44 @@ public class PlaceGUI extends NodeGUI {
         initialize();
     }
 
+    public int getCountNetToken() {
+        return countNetToken;
+    }
+
+    public int getCountBasicToken() {
+        return countBasicToken;
+    }
+
+    public void addToken(Token token) {
+        ((Place)node).addToken(token);
+        if (token.getClass() == BasicToken.class) {
+            countBasicToken ++ ;
+        } else {
+            countNetToken ++ ;
+        }
+    }
+
+    public void findAllTabs(List<TabExtension> tabs) {
+
+
+        for (Token token : ((Place)getNode()).getTokens() ) {
+            if (token.getClass() == NetToken.class) {
+                for (Tab tab : getTab().getTabPane().getTabs()) {
+                    if (((TabExtension)tab).getNet() == ((NetToken) token).getInnerNet()) {
+                        tabs.add((TabExtension) tab);
+                        for (NodeGUI nodeGUI : ((TabExtension) tab).getNodesGUI()) {
+                            if (nodeGUI.getClass() == PlaceGUI.class) {
+                                ((PlaceGUI)nodeGUI).findAllTabs(tabs);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+
     void initialize() {
         super.initialize();
 
@@ -59,4 +104,6 @@ public class PlaceGUI extends NodeGUI {
         });
 
     }
+
+
 }

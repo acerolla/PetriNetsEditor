@@ -15,8 +15,8 @@ import model.Transition;
 /**
  * Created by Acerolla on 02.04.2017.
  */
-public class ArcWithGUI {
-    private Group node;
+public class ArcGUI {
+    private Group group;
 
     private Line
         line,
@@ -27,25 +27,23 @@ public class ArcWithGUI {
 
     private Pane root;
 
-    public ArcWithGUI(Pane root, Arc arc) {
+    public ArcGUI(Pane root, Arc arc) {
 
         this.root = root;
         this.arc = arc;
+        this.group = new Group();
 
-        //node = new Group();
 
         line = new Line();
         //arrow1 = new Line();
         //arrow2 = new Line();
-
+        group.getChildren().add(line);
         drawArrow(arc.getSource().getStartPoint(), arc.getTarget().getStartPoint());
 
 
 
 
         line.setStrokeType(StrokeType.CENTERED);
-
-        //node.getChildren().addAll(line, arrow1, arrow2);
 
         initialize();
     }
@@ -108,7 +106,7 @@ public class ArcWithGUI {
         return arc;
     }
 
-    public Line getLine() {
-        return line;
+    public Group getGroup() {
+        return group;
     }
 }

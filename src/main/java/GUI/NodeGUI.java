@@ -2,12 +2,13 @@ package GUI;
 
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import model.Node;
 import model.Point;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Acerolla on 03.04.2017.
@@ -15,19 +16,19 @@ import model.Point;
 public abstract class NodeGUI {
 
     Group root;
-    MainPanel mainPanel;
+    TabExtension tab;
     Node node;
 
-    private NodeGUI self;
+    //private NodeGUI self;
 
     private boolean isDragDetected;
     private double
             startX,
             startY;
 
-    NodeGUI(MainPanel mainPanel, Node node) {
-        this.mainPanel = mainPanel;
-        self = this;
+    NodeGUI(TabExtension tabExtension, Node node) {
+        this.tab = tabExtension;
+        //self = this;
         root = new Group();
         this.node = node;
     }
@@ -44,7 +45,7 @@ public abstract class NodeGUI {
 
                 node.setStartPoint(new Point(root.getLayoutX(), root.getLayoutY()));
 
-                mainPanel.redrawArc(self);
+                tab.redrawArc(NodeGUI.this);
                 //System.out.println("DRAGGED");
 
                 /*
@@ -67,7 +68,7 @@ public abstract class NodeGUI {
                     isDragDetected = Boolean.FALSE;
                 } else if (event.getButton() == MouseButton.PRIMARY) {
 
-                    mainPanel.tryToLink(self);
+                    tab.tryToLink(NodeGUI.this);
                 }
                 //System.out.println("RELEASED");
             }
@@ -92,6 +93,29 @@ public abstract class NodeGUI {
 
     public Group getRoot() {
         return root;
+    }
+
+    public TabExtension getTab() {
+        return tab;
+    }
+
+    public void removeNode() {
+
+        List<ArcGUI> forRemove = new ArrayList<ArcGUI>();
+        for (ArcGUI arcGUI : tab.getArcsGUI()) {
+            if (
+                    arcGUI.getArc().getTarget() == this.getNode() ||
+                    arcGUI.getArc().getSource() == this.getNode()) {
+                forRemove.add(arcGUI);
+            }
+        }
+        for (ArcGUI arcGUI : forRemove) {
+            tab.getArcsGUI().remove(arcGUI);
+            tab.getAnchorPane().getChildren().remove(arcGUI.getGroup());
+        }
+        tab.getAnchorPane().getChildren().remove(this.getRoot());
+        tab.getNodesGUI().remove(this);
+        tab.getNet().removeNode(node);
     }
 
 

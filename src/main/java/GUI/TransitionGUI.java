@@ -24,8 +24,8 @@ public class TransitionGUI extends NodeGUI {
     private ContextMenuTransition contextMenu;
 
 
-    public TransitionGUI(MainPanel mainPanel, Node node) {
-        super(mainPanel, node);
+    public TransitionGUI(TabExtension tabExtension, Node node) {
+        super(tabExtension, node);
 
 
         rectangle = new Rectangle(-10, -40, 20, 80);
