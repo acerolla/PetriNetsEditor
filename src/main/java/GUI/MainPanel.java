@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import model.*;
 import model.Arc;
 
@@ -63,7 +64,11 @@ public class MainPanel extends Application {
         rootItem = new TreeItem<String>("Outer Net");
         rootItem.setExpanded(true);
         treeView.setRoot(rootItem);
-        ContextMenuTreeItem cmti = new ContextMenuTreeItem(treeView);
+        treeView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+            public TreeCell<String> call(TreeView<String> param) {
+                return new TreeItemImpl();
+            }
+        });
 
 
 

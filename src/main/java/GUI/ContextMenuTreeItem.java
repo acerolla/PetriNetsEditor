@@ -16,32 +16,13 @@ public class ContextMenuTreeItem extends ContextMenu {
     public ContextMenuTreeItem(TreeView<String> parent) {
         super();
         this.parent = parent;
-        initialize();
+        //initialize();
     }
 
     private void initialize() {
 
-        ContextMenu rootContextMenu
-                = ContextMenuBuilder.create()
-                .items(
-                        MenuItemBuilder.create()
-                                .text("Menu Item")
-                                .onAction(
-                                        new EventHandler<ActionEvent>()
-                                        {
-                                            //@Override
-                                            public void handle(ActionEvent arg0)
-                                            {
-                                                System.out.println(arg0.getSource());
-                                                System.out.println(arg0.getTarget());
-                                            }
-                                        }
-                                )
-                                .build()
-                )
-                .build();
+        show(parent, 0 ,0);
 
 
-        parent.setContextMenu(rootContextMenu);
     }
 }

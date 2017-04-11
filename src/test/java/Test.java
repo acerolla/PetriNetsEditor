@@ -4,133 +4,97 @@ import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeCell;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class Test extends Application
+
+
 {
-    List<Employee> employees = Arrays.<Employee>asList(
-            new Employee("New Chassi", "New Datacenter"),
-            new Employee("New Battery", "New Rack"),
-            new Employee("New Chassi", "New Server"),
-            new Employee("Anna Black", "Sales Department"),
-            new Employee("Rodger York", "Sales Department"),
-            new Employee("Susan Collins", "Sales Department"),
-            new Employee("Mike Graham", "IT Support"),
-            new Employee("Judy Mayer", "IT Support"),
-            new Employee("Gregory Smith", "IT Support"),
-            new Employee("Jacob Smith", "Accounts Department"),
-            new Employee("Isabella Johnson", "Accounts Department"));
-    TreeItem<String> rootNode = new TreeItem<String>("MyCompany Human Resources");
 
-    public static void main(String[] args)
-    {
-        Application.launch(args);
-    }
-
-    TreeView<String> treeView = new TreeView<String>(rootNode);
 
     @Override
-    public void start(Stage stage)
-    {
+    public void start(Stage primaryStage) {
 
-        // instantiate the root context menu
-        final ContextMenu rootContextMenu
-                = ContextMenuBuilder.create()
-                .items(
-                        MenuItemBuilder.create()
-                                .text("Menu Item")
-                                .onAction(
-                                        new EventHandler<ActionEvent>()
-                                        {
-
-                                            public void handle(ActionEvent arg0)
-                                            {
-                                                System.out.println("Menu Item Clicked!");
-                                                System.out.println(arg0.getSource());
-                                                System.out.println(arg0.getTarget());
-
-                                            }
-                                        }
-                                )
-                                .build()
-                )
-                .build();
-
-        treeView.setContextMenu(rootContextMenu);
-
-        rootNode.setExpanded(true);
-        for (Employee employee : employees)
-        {
-            TreeItem<String> empLeaf = new TreeItem<String>(employee.getName());
-            boolean found = false;
-            for (TreeItem<String> depNode : rootNode.getChildren())
-            {
-                if (depNode.getValue().contentEquals(employee.getDepartment()))
-                {
-                    depNode.getChildren().add(empLeaf);
-                    found = true;
-                    break;
-                }
-            }
-            if (!found)
-            {
-                TreeItem<String> depNode = new TreeItem<String>(
-                        employee.getDepartment()//,new ImageView(depIcon)   // Set picture
-                );
-                rootNode.getChildren().add(depNode);
-                depNode.getChildren().add(empLeaf);
-            }
-        }
-
-        stage.setTitle("Tree View Sample");
-        VBox box = new VBox();
-        final Scene scene = new Scene(box, 400, 300);
-        scene.setFill(Color.LIGHTGRAY);
+        Group root = new Group();
 
 
-        box.getChildren().add(treeView);
-        stage.setScene(scene);
-        stage.show();
+
+        CubicCurve curve1 = new CubicCurve( 20, 800,
+                40, 160,
+                450, 500,
+                600, 600);
+        curve1.setStroke(Color.BLACK);
+        curve1.setStrokeWidth(1);
+        curve1.setFill( null);
+
+        double size=Math.max(curve1.getBoundsInLocal().getWidth(),
+                curve1.getBoundsInLocal().getHeight());
+        double scale=size/4d;
+
+        Point2D ori;
+        Point2D tan;
+
+        ori=eval(curve1,(float)0.3);
+        tan=evalDt(curve1,1).normalize().multiply(scale);
+        Path arrowEnd=new Path();
+        arrowEnd.getElements().add(new MoveTo(ori.getX()-0.2*tan.getX()-0.2*tan.getY(),
+                ori.getY()-0.2*tan.getY()+0.2*tan.getX()));
+        arrowEnd.getElements().add(new LineTo(ori.getX(), ori.getY()));
+        arrowEnd.getElements().add(new LineTo(ori.getX()-0.2*tan.getX()+0.2*tan.getY(),
+                ori.getY()-0.2*tan.getY()-0.2*tan.getX()));
+
+        root.getChildren().addAll( curve1, arrowEnd);
+
+        primaryStage.setScene(new Scene(root, 800, 600));
+        primaryStage.show();
     }
 
-    public static class Employee
-    {
-
-        private final SimpleStringProperty name;
-        private final SimpleStringProperty department;
-
-        private Employee(String name, String department)
-        {
-            this.name = new SimpleStringProperty(name);
-            this.department = new SimpleStringProperty(department);
-        }
-
-        public String getName()
-        {
-            return name.get();
-        }
-
-        public void setName(String fName)
-        {
-            name.set(fName);
-        }
-
-        public String getDepartment()
-        {
-            return department.get();
-        }
-
-        public void setDepartment(String fName)
-        {
-            department.set(fName);
-        }
+    /**
+     * Evaluate the cubic curve at a parameter 0<=t<=1, returns a Point2D
+     * @param c the CubicCurve
+     * @param t param between 0 and 1
+     * @return a Point2D
+     */
+    private Point2D eval(CubicCurve c, float t){
+        Point2D p=new Point2D(Math.pow(1-t,3)*c.getStartX()+
+                3*t*Math.pow(1-t,2)*c.getControlX1()+
+                3*(1-t)*t*t*c.getControlX2()+
+                Math.pow(t, 3)*c.getEndX(),
+                Math.pow(1-t,3)*c.getStartY()+
+                        3*t*Math.pow(1-t, 2)*c.getControlY1()+
+                        3*(1-t)*t*t*c.getControlY2()+
+                        Math.pow(t, 3)*c.getEndY());
+        return p;
     }
 
+    /**
+     * Evaluate the tangent of the cubic curve at a parameter 0<=t<=1, returns a Point2D
+     * @param c the CubicCurve
+     * @param t param between 0 and 1
+     * @return a Point2D
+     */
+    private Point2D evalDt(CubicCurve c, float t){
+        Point2D p=new Point2D(-3*Math.pow(1-t,2)*c.getStartX()+
+                3*(Math.pow(1-t, 2)-2*t*(1-t))*c.getControlX1()+
+                3*((1-t)*2*t-t*t)*c.getControlX2()+
+                3*Math.pow(t, 2)*c.getEndX(),
+                -3*Math.pow(1-t,2)*c.getStartY()+
+                        3*(Math.pow(1-t, 2)-2*t*(1-t))*c.getControlY1()+
+                        3*((1-t)*2*t-t*t)*c.getControlY2()+
+                        3*Math.pow(t, 2)*c.getEndY());
+        return p;
+    }
 
 }
