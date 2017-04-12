@@ -81,6 +81,10 @@ public class TabExtension extends Tab {
         return net;
     }
 
+    public void setNet(Net net) {
+        this.net = net;
+    }
+
 
     public void addPlaceClicked() {
         placeFlag       = true;
@@ -165,6 +169,39 @@ public class TabExtension extends Tab {
                 }
             }
         });
+    }
+
+    public void drawNet() {
+        for (Node node : net.getNodes()) {
+            if (node.getClass() == Place.class) {
+                PlaceGUI placeGUI = new PlaceGUI(this, node);
+                anchorPane.getChildren().add(placeGUI.getRoot());
+                nodesGUI.add(placeGUI);
+            } else {
+                TransitionGUI transitionGUI = new TransitionGUI(this, node);
+                anchorPane.getChildren().add(transitionGUI.getRoot());
+                nodesGUI.add(transitionGUI);
+            }
+
+        }
+
+        for (NodeGUI node : nodesGUI) {
+            for (Arc arc : node.getNode().getArcs()) {
+                for (NodeGUI anotherNode : nodesGUI) {
+                    if (arc.getSource() == node.getNode() && arc.getTarget() == anotherNode.getNode()) {
+                        firstNode = node;
+                        isClicked = true;
+                        try {
+                            ArcGUI arcGUI = new ArcGUI(anchorPane, arc);
+                            arcsGUI.add(arcGUI);
+                            anchorPane.getChildren().add(arcGUI.getGroup());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
     }
 
 

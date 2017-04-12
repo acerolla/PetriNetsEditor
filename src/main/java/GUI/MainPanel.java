@@ -32,7 +32,7 @@ public class MainPanel extends Application {
     private TreeView<String> treeView;
     private TreeItem<String> rootItem;
 
-    TabExtension activeTab;
+    private TabExtension activeTab;
 
 
 
@@ -66,7 +66,7 @@ public class MainPanel extends Application {
         treeView.setRoot(rootItem);
         treeView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
             public TreeCell<String> call(TreeView<String> param) {
-                return new TreeItemImpl();
+                return new TreeItemImpl(MainPanel.this);
             }
         });
 
@@ -112,6 +112,14 @@ public class MainPanel extends Application {
 
     public TabPane getTabPane() {
         return tabPane;
+    }
+
+    public TabExtension getActiveTab() {
+        return activeTab;
+    }
+
+    public void setActiveTab(TabExtension tab) {
+        this.activeTab = tab;
     }
 
     public static void main(String[] args) {
