@@ -1,4 +1,4 @@
-package parser;
+package io;
 
 import com.thoughtworks.xstream.XStream;
 import model.Net;
@@ -9,9 +9,11 @@ import java.io.FileInputStream;
 /**
  * Created by Acerolla on 28.03.2017.
  */
-public class Reader {
+public class NetReader {
 
-    public static void read(File file, Net net) {
+    public static Net read(File file) {
+
+        Net net = new Net();
         XStream xs = new XStream();
 
 
@@ -21,5 +23,6 @@ public class Reader {
         } catch(Exception e) {
             e.printStackTrace();
         }
+        return net;
     }
 }

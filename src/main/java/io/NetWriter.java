@@ -1,4 +1,4 @@
-package parser;
+package io;
 
 import com.thoughtworks.xstream.XStream;
 import model.Net;
@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 /**
  * Created by Acerolla on 28.03.2017.
  */
-public class Writer {
+public class NetWriter {
     public static void write(File file, Net net) {
         XStream xs = new XStream();
 

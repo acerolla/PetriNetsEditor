@@ -1,5 +1,7 @@
 package GUI;
 
+import io.NetReader;
+import io.NetWriter;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -10,11 +12,14 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.*;
 import model.Arc;
+import model.Node;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +41,7 @@ public class MainPanel extends Application {
 
 
 
-    public void start(Stage primaryStage) throws Exception {
+    public void start(final Stage primaryStage) throws Exception {
         primaryStage.setTitle("Petri Nets Editor");
         primaryStage.setMinWidth(650);
         primaryStage.setMinHeight(450);
@@ -90,6 +95,32 @@ public class MainPanel extends Application {
             }
         });
 
+
+        MenuBar menuBar = (MenuBar) ((BorderPane)root).getTop();
+        Menu fileMenu = menuBar.getMenus().get(0);
+        Menu editMenu = menuBar.getMenus().get(1);
+
+        MenuItem saveFileMenuItem = fileMenu.getItems().get(0);
+        saveFileMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                save(primaryStage);
+            }
+        });
+
+        MenuItem openFileMenuItem = fileMenu.getItems().get(1);
+        openFileMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                open(primaryStage);
+            }
+        });
+
+        MenuItem refreshEditMenuItem = editMenu.getItems().get(0);
+        refreshEditMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                refresh();
+            }
+        });
+
         Button btn = new Button("click me");
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -109,6 +140,63 @@ public class MainPanel extends Application {
         primaryStage.show();
     }
 
+    private void refresh() {
+        tabPane.getTabs().clear();
+        activeTab = new TabExtension();
+        activeTab.setText("Outer Net");
+        activeTab.setClosable(false);
+        tabPane.getTabs().add(activeTab);
+
+        rootItem = new TreeItem<String>("Outer Net");
+        rootItem.setExpanded(true);
+        treeView.setRoot(rootItem);
+        treeView.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+            public TreeCell<String> call(TreeView<String> param) {
+                return new TreeItemImpl(MainPanel.this);
+            }
+        });
+    }
+
+    private void save(Stage stage) {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            Net net = ((TabExtension)tabPane.getTabs().get(0)).getNet();
+            NetWriter.write(file, net);
+        }
+    }
+
+    private void open(Stage stage) {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            if (!file.getName().contains(".xml")) {
+                return;
+            }
+            refresh();
+            Net net = NetReader.read(file);
+            TabExtension tab = (TabExtension) tabPane.getTabs().get(0);
+            tab.setNet(net);
+            tab.drawNet();
+            createTree(treeView.getRoot(), net);
+
+        }
+    }
+
+    private void createTree(TreeItem<String> treeItem, Net net) {
+        for (Node node : net.getNodes()) {
+            if (node.getClass() == Place.class) {
+                for (Token token : ((Place)node).getTokens()) {
+                    if (token.getClass() == NetToken.class) {
+                        TreeItem<String> newItem = new TreeItem<String>();
+                        newItem.setValue(((NetToken)token).getLabel());
+                        treeItem.getChildren().add(newItem);
+                        createTree(newItem,((NetToken) token).getInnerNet());
+                    }
+                }
+            }
+        }
+    }
 
     public TabPane getTabPane() {
         return tabPane;
