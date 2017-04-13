@@ -97,6 +97,7 @@ public class TabExtension extends Tab {
     }
 
     public void tryToLink(NodeGUI node) {
+
         if (!isClicked) {
             System.out.println("1st time");
             firstNode = node;
@@ -104,6 +105,14 @@ public class TabExtension extends Tab {
         } else {
             System.out.println("2nd time");
             try {
+                if (firstNode == node) {
+                    throw new Exception("Cannot relate this");
+                }
+                for (Arc arc : firstNode.getNode().getArcs()) {
+                    if (arc.getTarget() == node.getNode()) {
+                        throw new Exception("Already related");
+                    }
+                }
                 Arc arc = new Arc(firstNode.getNode(), node.getNode());
                 firstNode.getNode().addArc(arc);
                 ArcGUI arcGUI = new ArcGUI(anchorPane, arc);
