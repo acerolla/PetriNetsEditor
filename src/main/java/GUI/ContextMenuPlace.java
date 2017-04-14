@@ -72,7 +72,13 @@ public class ContextMenuPlace extends ContextMenu {
                 parent.addToken(new BasicToken());
             }
         });
-        //MenuItem itemRemoveToken = new MenuItem("Remove Token");
+
+        MenuItem itemRemoveToken = new MenuItem("Remove Basic Token");
+        itemRemoveToken.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                parent.removeToken();
+            }
+        });
 
         MenuItem itemSelfRemove = new MenuItem("Remove This Node");
         itemSelfRemove.setOnAction(new EventHandler<ActionEvent>() {
@@ -99,7 +105,7 @@ public class ContextMenuPlace extends ContextMenu {
 
 
         addMenu.getItems().addAll(itemAddBasicToken, itemAddNetToken);
-        removeMenu.getItems().addAll(itemSelfRemove/*, itemRemoveInnerNodes, itemRemoveToken*/);
+        removeMenu.getItems().addAll(itemSelfRemove/*, itemRemoveInnerNodes*/, itemRemoveToken);
 
         this.getItems().addAll(addMenu, removeMenu);
     }

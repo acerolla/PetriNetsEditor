@@ -7,6 +7,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeType;
 import model.Arc;
 import model.Point;
@@ -19,11 +20,18 @@ public class ArcGUI {
     private Group group;
 
     private Line
-        line,
-        arrow1,
-        arrow2;
+        line;
+
+    private Polygon arrow;
 
     private Arc arc;
+
+    private Point
+            pWest,
+            pEast,
+            pNorth,
+            pSouth,
+            pMin;
 
     private Pane root;
 
@@ -35,9 +43,10 @@ public class ArcGUI {
 
 
         line = new Line();
-        //arrow1 = new Line();
-        //arrow2 = new Line();
-        group.getChildren().add(line);
+        arrow = new Polygon();
+        arrow.setFill(Paint.valueOf("BLACK"));
+
+        group.getChildren().addAll(line, arrow);
         drawArrow(arc.getSource().getStartPoint(), arc.getTarget().getStartPoint());
 
 
@@ -54,12 +63,6 @@ public class ArcGUI {
 
     private Point findMin(Point p1, Point p2, boolean transition) {
 
-        Point
-                pWest,
-                pEast,
-                pNorth,
-                pSouth,
-                pMin;
 
         if (transition) {
             pWest  = new Point(p2.getX() - 10, p2.getY());
@@ -90,14 +93,51 @@ public class ArcGUI {
         } else {
             transition = false;
         }
-        Point end = findMin(p1, p2, transition);
+
         Point start = findMin(p2, p1, !transition);
+        Point end = findMin(p1, p2, transition);
+
+        //root.getChildren().remove(arrow);
+
+        arrow.getPoints().clear();
+        if (end == pWest) {
+
+            arrow.getPoints().addAll(
+                    end.getX(), end.getY(),
+                    end.getX() - 10, end.getY() + 5,
+                    end.getX() - 10, end.getY() - 5);
+            end.setX(end.getX() - 10);
+
+        } else if (end == pEast) {
+            arrow.getPoints().addAll(
+                    end.getX(), end.getY(),
+                    end.getX() + 10, end.getY() + 5,
+                    end.getX() + 10, end.getY() - 5);
+            end.setX(end.getX() + 10);
+        } else if (end == pNorth) {
+            arrow.getPoints().addAll(
+                    end.getX(), end.getY(),
+                    end.getX() + 5, end.getY() - 10,
+                    end.getX() - 5, end.getY() - 10);
+            end.setY(end.getY() - 10);
+        } else {
+            arrow.getPoints().addAll(
+                    end.getX(), end.getY(),
+                    end.getX() + 5, end.getY() + 10,
+                    end.getX() - 5, end.getY() + 10);
+            end.setY(end.getY() + 10);
+        }
+
+        //root.getChildren().add(arrow);
+
 
         line.setStartX(start.getX());
         line.setStartY(start.getY());
 
         line.setEndX(end.getX());
         line.setEndY(end.getY());
+
+
     }
 
 

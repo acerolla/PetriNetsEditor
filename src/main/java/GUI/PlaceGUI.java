@@ -66,6 +66,7 @@ public class PlaceGUI extends NodeGUI {
         ((Place)node).addToken(token);
         if (token.getClass() == BasicToken.class) {
             countBasicToken ++ ;
+            drawTokens();
         } else {
             countNetToken ++ ;
         }
@@ -91,6 +92,62 @@ public class PlaceGUI extends NodeGUI {
 
     }
 
+    public void removeToken() {
+        if (root.getChildren().size() == 2) {
+            return;
+        } else {
+            Label label = (Label)root.getChildren().get(2);
+            if (label.getText().equals("1")) {
+                root.getChildren().remove(label);
+            } else {
+                countBasicToken -- ;
+                label.setText("" + countBasicToken);
+            }
+            for (Token token : ((Place)getNode()).getTokens()) {
+                if (token.getClass() == BasicToken.class) {
+                    ((Place)getNode()).removeToken(token);
+                    return;
+                }
+            }
+        }
+    }
+
+    private void drawTokens() {
+        int bCount = 0;
+        int nCount = 0;
+        for (Token token : ((Place)getNode()).getTokens()) {
+            if (token.getClass() == BasicToken.class) {
+                bCount ++ ;
+            } else {
+                nCount ++ ;
+            }
+        }
+
+        countBasicToken = bCount;
+        countNetToken = nCount;
+
+        if (countBasicToken == 1) {
+            Label label = new Label("1");
+            label.setLayoutX(-5);
+            label.setLayoutY(-8);
+            Circle circle = new Circle(5);
+            circle.setFill(Paint.valueOf("BLACK"));
+            label.setGraphic(circle);
+            root.getChildren().add(label);
+        } else if (countBasicToken > 1 && root.getChildren().size() == 3) {
+            Label label = (Label)root.getChildren().get(2);
+            label.setText("" + countBasicToken);
+        } else if (countBasicToken > 1 && root.getChildren().size() == 2) {
+            Label label = new Label("" + countBasicToken);
+            label.setLayoutX(-5);
+            label.setLayoutY(-8);
+            Circle circle = new Circle(5);
+            circle.setFill(Paint.valueOf("BLACK"));
+            label.setGraphic(circle);
+            root.getChildren().add(label);
+        }
+    }
+
 
     void initialize() {
         super.initialize();
@@ -102,6 +159,8 @@ public class PlaceGUI extends NodeGUI {
                 contextMenu.show(root, event.getScreenX(), event.getScreenY());
             }
         });
+
+        drawTokens();
 
     }
 
