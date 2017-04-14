@@ -60,7 +60,7 @@ public class ContextMenuPlace extends ContextMenu {
                 newItem.setExpanded(true);
                 out.getChildren().add(newItem);
 
-
+                MainPanel.lastAction( "Net Token added in " + parent.toString());
 
 
             }
@@ -70,6 +70,7 @@ public class ContextMenuPlace extends ContextMenu {
         itemAddBasicToken.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 parent.addToken(new BasicToken());
+                MainPanel.lastAction( "Basic Token added in " + parent.toString());
             }
         });
 
@@ -77,6 +78,7 @@ public class ContextMenuPlace extends ContextMenu {
         itemRemoveToken.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 parent.removeToken();
+                MainPanel.lastAction( "Basic Token removed from " + parent.toString());
             }
         });
 
@@ -98,6 +100,7 @@ public class ContextMenuPlace extends ContextMenu {
                 parent.findAllTabs(tabs);
                 parent.getTab().getTabPane().getTabs().removeAll(tabs);
                 parent.removeNode();
+                MainPanel.lastAction( parent.toString() + " successfully removed.");
             }
         });
 

@@ -26,7 +26,8 @@ public class TabExtension extends Tab {
 
     private boolean
         placeFlag,
-        transitionFlag;
+        transitionFlag,
+        connector;
 
     private AnchorPane anchorPane;
 
@@ -94,20 +95,28 @@ public class TabExtension extends Tab {
         placeFlag       = false;
     }
 
-    public void tryToLink(NodeGUI node) {
+    public void connectorClicked() {
+        connector = true;
+    }
 
+    public void tryToLink(NodeGUI node) {
+        if (!connector) {
+            return;
+        }
         if (!isClicked) {
-            System.out.println("1st time");
+            MainPanel.lastAction(node.toString() + " clicked as 1st node.");
             firstNode = node;
             isClicked = Boolean.TRUE;
         } else {
-            System.out.println("2nd time");
+            MainPanel.lastAction(node.toString() + " clicked as 2nd node.");
             try {
                 if (firstNode == node) {
+                    connector = false;
                     throw new Exception("Cannot relate this");
                 }
                 for (Arc arc : firstNode.getNode().getArcs()) {
                     if (arc.getTarget() == node.getNode()) {
+                        connector = false;
                         throw new Exception("Already related");
                     }
                 }
@@ -117,10 +126,12 @@ public class TabExtension extends Tab {
                 arcsGUI.add(arcGUI);
                 anchorPane.getChildren().add(arcGUI.getGroup());
             } catch (Exception e) {
+                connector = false;
                 e.printStackTrace();
             }
             firstNode = null;
             isClicked = Boolean.FALSE;
+            connector = false;
         }
     }
 
@@ -155,7 +166,8 @@ public class TabExtension extends Tab {
                             nodesGUI.add(place);
 
                             net.addNode(pl);
-                            //rootItem.getChildren().add(new TreeItem<String>("P" + placeId));
+
+                            MainPanel.lastAction(place.toString() + " added.");
 
                             placeFlag = false;
                         } else if (transitionFlag) {
@@ -169,6 +181,8 @@ public class TabExtension extends Tab {
                             nodesGUI.add(transition);
 
                             net.addNode(tr);
+
+                            MainPanel.lastAction(transition.toString() + " added.");
 
                             transitionFlag = false;
                         }

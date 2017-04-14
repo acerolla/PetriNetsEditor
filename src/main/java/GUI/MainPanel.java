@@ -12,6 +12,12 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -39,6 +45,7 @@ public class MainPanel extends Application {
 
     private TabExtension activeTab;
 
+    private static TextField textField;
 
 
     public void start(final Stage primaryStage) throws Exception {
@@ -75,26 +82,58 @@ public class MainPanel extends Application {
             }
         });
 
-
+        textField = (TextField) root.getChildren().get(3);
+        textField.setEditable(false);
 
 
         final Button btn1 = (Button) ((HBox)((BorderPane)root.getChildren().get(0)).getChildren().get(1)).getChildren().get(0);
+        Circle circle = new Circle(5);
+        circle.setFill(Color.WHITE);
+        circle.setStroke(Color.BLACK);
+        //btn1.setText("add");
+        btn1.setGraphic(circle);
         btn1.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-
+                MainPanel.lastAction("Adding new Position.");
                 activeTab.addPlaceClicked();
 
             }
         });
 
         final Button btn2 = (Button) ((HBox)((BorderPane)root.getChildren().get(0)).getChildren().get(1)).getChildren().get(1);
+        Rectangle rectangle = new Rectangle(4, 15);
+        rectangle.setFill(Color.WHITE);
+        rectangle.setStroke(Color.BLACK);
+        btn2.setGraphic(rectangle);
+        //btn2.setText("add");
         btn2.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-
+                MainPanel.lastAction("Adding new Transition.");
                 activeTab.addTransitionClicked();
             }
         });
 
+        final Button btn3 = (Button) ((HBox)((BorderPane)root.getChildren().get(0)).getChildren().get(1)).getChildren().get(2);
+        Group group = new Group();
+        Line line = new Line();
+        line.setStartX(5);
+        line.setStartY(5);
+        line.setEndX(15);
+        line.setEndY(5);
+        Polygon polygon = new Polygon();
+        polygon.getPoints().addAll(
+                15.0, 2.0,
+                15.0, 8.0,
+                18.0, 5.0
+        );
+        group.getChildren().addAll(line, polygon);
+        btn3.setGraphic(group);
+        btn3.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                MainPanel.lastAction("Selecting 2 nodes to connect.");
+                activeTab.connectorClicked();
+            }
+        });
 
         MenuBar menuBar = (MenuBar) ((BorderPane)root).getTop();
         Menu fileMenu = menuBar.getMenus().get(0);
@@ -104,6 +143,7 @@ public class MainPanel extends Application {
         saveFileMenuItem.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 save(primaryStage);
+                MainPanel.lastAction("Net successfully saved!");
             }
         });
 
@@ -111,6 +151,7 @@ public class MainPanel extends Application {
         openFileMenuItem.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 open(primaryStage);
+                MainPanel.lastAction("Net successfully opened!");
             }
         });
 
@@ -120,14 +161,6 @@ public class MainPanel extends Application {
                 refresh();
             }
         });
-
-        Button btn = new Button("click me");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                int i = 0;
-            }
-        });
-        activeTab.getAnchorPane().getChildren().add(btn);
 
 
         tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
@@ -216,5 +249,9 @@ public class MainPanel extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static void lastAction(String text) {
+        textField.setText("Last action:   " + text);
     }
 }

@@ -62,6 +62,8 @@ public class TreeItemImpl extends TreeCell<String> {
 
                 Place.setPlaceId(((TabExtension)TreeItemImpl.this.main.getTabPane().getTabs().get(0)).getNet().getLastPlace());
                 Transition.setTransitionId(((TabExtension)TreeItemImpl.this.main.getTabPane().getTabs().get(0)).getNet().getLastTransition());
+
+                MainPanel.lastAction("Net(" + getTreeItem().getValue() + ") removed.");
             }
         });
 
@@ -69,7 +71,8 @@ public class TreeItemImpl extends TreeCell<String> {
         menu.getItems().add(openItem);
         openItem.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                System.out.println("Open");
+                MainPanel.lastAction("Tab with Net(" + getTreeItem().getValue() + ") opened.");
+
                 boolean found = false;
                 for (Tab tab : TreeItemImpl.this.main.getTabPane().getTabs()) {
                     if (tab.getText().equals(getTreeItem().getValue())) {

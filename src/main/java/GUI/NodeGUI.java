@@ -48,7 +48,7 @@ public abstract class NodeGUI {
                 node.setStartPoint(new Point(root.getLayoutX(), root.getLayoutY()));
 
                 tab.redrawArc(NodeGUI.this);
-                //System.out.println("DRAGGED");
+                MainPanel.lastAction(NodeGUI.this.toString() + " dragged.");
 
                 /*
                 if (pane.getPrefWidth() - 200 < event.getSceneX()) {
@@ -66,7 +66,7 @@ public abstract class NodeGUI {
                     //root.setLayoutX(event.getSceneX() - startX);
                     //root.setLayoutY(event.getSceneY() - startY);
 
-
+                    MainPanel.lastAction(NodeGUI.this.toString() + " dropped.");
                     isDragDetected = Boolean.FALSE;
                 } else if (event.getButton() == MouseButton.PRIMARY) {
 
@@ -121,6 +121,19 @@ public abstract class NodeGUI {
         TabExtension outer = (TabExtension) tab.getTabPane().getTabs().get(0);
         Place.setPlaceId(outer.getNet().getLastPlace());
         Transition.setTransitionId(outer.getNet().getLastTransition());
+    }
+
+    public String toString() {
+        String ans = "";
+        if (getNode().getClass() == Place.class) {
+            ans += "P";
+        } else {
+            ans += "T";
+        }
+
+        ans += getNode().getId();
+
+        return ans;
     }
 
 

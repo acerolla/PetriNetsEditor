@@ -26,8 +26,9 @@
          <top>
             <HBox prefHeight="6.0" prefWidth="310.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Add Place" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Add Transition" />
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="add" />
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="add" />
+                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="add" />
                </children>
             </HBox>
          </top>
@@ -60,4 +61,7 @@
    <left>
       <TreeView editable="true" prefHeight="375.0" prefWidth="149.0" BorderPane.alignment="CENTER" />
    </left>
+   <bottom>
+      <TextField prefHeight="5.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>
