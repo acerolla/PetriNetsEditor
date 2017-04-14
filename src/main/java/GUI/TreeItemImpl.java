@@ -57,9 +57,11 @@ public class TreeItemImpl extends TreeCell<String> {
                 TreeItemImpl.this.main.getTabPane().getTabs().removeAll(forRemove);
 
 
-
                 place.removeToken(netToken);
                 getTreeItem().getParent().getChildren().remove(getTreeItem());
+
+                Place.setPlaceId(((TabExtension)TreeItemImpl.this.main.getTabPane().getTabs().get(0)).getNet().getLastPlace());
+                Transition.setTransitionId(((TabExtension)TreeItemImpl.this.main.getTabPane().getTabs().get(0)).getNet().getLastTransition());
             }
         });
 

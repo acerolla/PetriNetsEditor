@@ -18,8 +18,6 @@ public class TabExtension extends Tab {
 
     private Net net;
 
-    private static int placeId, transitionId;
-
     List<NodeGUI> nodesGUI;
     List<ArcGUI> arcsGUI;
 
@@ -49,7 +47,7 @@ public class TabExtension extends Tab {
     }
 
 
-    public static void setPlaceId(int placeId) {
+/*    public static void setPlaceId(int placeId) {
         TabExtension.placeId = placeId;
     }
 
@@ -63,7 +61,7 @@ public class TabExtension extends Tab {
 
     public static int getTransitionId() {
         return transitionId;
-    }
+    }*/
 
     public AnchorPane getAnchorPane() {
         return anchorPane;
@@ -147,8 +145,8 @@ public class TabExtension extends Tab {
                 if (event.getButton() == MouseButton.PRIMARY) {
                     if (event.getClickCount() == 1) {
                         if (placeFlag) {
-                            placeId ++ ;
-                            Place pl = new Place(placeId);
+                            //placeId ++ ;
+                            Place pl = new Place();
                             pl.setStartPoint(new Point(event.getX(), event.getY()));
 
                             PlaceGUI place = new PlaceGUI(TabExtension.this, pl);
@@ -161,8 +159,8 @@ public class TabExtension extends Tab {
 
                             placeFlag = false;
                         } else if (transitionFlag) {
-                            transitionId ++ ;
-                            Transition tr = new Transition(transitionId);
+                            //transitionId ++ ;
+                            Transition tr = new Transition();
                             tr.setStartPoint(new Point(event.getX(), event.getY()));
 
                             TransitionGUI transition = new TransitionGUI(TabExtension.this, tr);

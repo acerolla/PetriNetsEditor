@@ -29,7 +29,7 @@ public class PlaceWithGUI {
             startX,
             startY;
 
-    public PlaceWithGUI(Pane root, Place place) {
+   /* public PlaceWithGUI(Pane root, Place place) {
         try {
             this.root = root;
 
@@ -50,7 +50,7 @@ public class PlaceWithGUI {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     private void initialize() {
 

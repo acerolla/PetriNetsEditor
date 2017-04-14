@@ -47,4 +47,41 @@ public class Net {
     public List<Node> getNodes() {
         return nodes;
     }
+
+    public int getLastPlace() {
+        int id = 0;
+        for (Node node : getNodes()) {
+            if (node.getClass() == Place.class) {
+                if (node.getId() >= id) {
+                    id = node.getId();
+                }
+                for (Token token : ((Place)node).getTokens()) {
+                    if (token.getClass() == NetToken.class) {
+                        id = ((NetToken)token).getInnerNet().getLastPlace();
+                    }
+                }
+            }
+        }
+
+        return  id;
+    }
+
+    public int getLastTransition() {
+        int id = 0;
+        for (Node node : getNodes()) {
+            if (node.getClass() == Transition.class) {
+                if (node.getId() >= id) {
+                    id = node.getId();
+                }
+            } else {
+                for (Token token : ((Place)node).getTokens()) {
+                    if (token.getClass() == NetToken.class) {
+                        id = ((NetToken)token).getInnerNet().getLastTransition();
+                    }
+                }
+            }
+        }
+
+        return  id;
+    }
 }

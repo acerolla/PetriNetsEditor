@@ -5,7 +5,9 @@ import javafx.scene.Group;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import model.Node;
+import model.Place;
 import model.Point;
+import model.Transition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,6 +118,9 @@ public abstract class NodeGUI {
         tab.getAnchorPane().getChildren().remove(this.getRoot());
         tab.getNodesGUI().remove(this);
         tab.getNet().removeNode(node);
+        TabExtension outer = (TabExtension) tab.getTabPane().getTabs().get(0);
+        Place.setPlaceId(outer.getNet().getLastPlace());
+        Transition.setTransitionId(outer.getNet().getLastTransition());
     }
 
 

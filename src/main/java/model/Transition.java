@@ -5,8 +5,18 @@ package model;
  */
 public class Transition extends Node {
 
-    public Transition(int id) {
-        super(id);
+    private static int transitionId;
+
+    public Transition() {
+        super(++ transitionId);
+    }
+
+    public static int getTransitionId() {
+        return transitionId;
+    }
+
+    public static void setTransitionId(int id) {
+        transitionId = id;
     }
 
 }

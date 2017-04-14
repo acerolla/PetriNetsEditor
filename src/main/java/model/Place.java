@@ -8,9 +8,11 @@ import java.util.List;
  */
 public class Place extends Node {
 
+    private static int placeId;
+
     private List<Token> tokens;
-    public Place(int id) {
-        super(id);
+    public Place() {
+        super(++placeId);
         tokens = new ArrayList<Token>();
     }
 
@@ -24,5 +26,13 @@ public class Place extends Node {
 
     public void removeToken(Token token) {
         tokens.remove(token);
+    }
+
+    public static int getPlaceId() {
+        return placeId;
+    }
+
+    public static void setPlaceId(int id) {
+        placeId = id;
     }
 }

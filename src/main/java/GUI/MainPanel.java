@@ -155,6 +155,8 @@ public class MainPanel extends Application {
                 return new TreeItemImpl(MainPanel.this);
             }
         });
+        Place.setPlaceId(0);
+        Transition.setTransitionId(0);
     }
 
     private void save(Stage stage) {
@@ -180,6 +182,8 @@ public class MainPanel extends Application {
             tab.drawNet();
             createTree(treeView.getRoot(), net);
 
+            Place.setPlaceId(net.getLastPlace());
+            Transition.setTransitionId(net.getLastTransition());
         }
     }
 

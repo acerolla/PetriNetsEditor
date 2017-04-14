@@ -28,7 +28,7 @@ public class TransitionWithGUI {
             startX,
             startY;
 
-    public TransitionWithGUI(Pane root, Transition transition) {
+    /*public TransitionWithGUI(Pane root, Transition transition) {
         try {
             this.root = root;
 
@@ -50,7 +50,7 @@ public class TransitionWithGUI {
         }
 
     }
-
+*/
     private void initialize() {
 
 
