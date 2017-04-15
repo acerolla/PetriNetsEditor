@@ -10,7 +10,7 @@ import java.io.FileOutputStream;
  * Created by Acerolla on 28.03.2017.
  */
 public class NetWriter {
-    public static void write(File file, Net net) {
+    public static void write(File file, Net net) throws Exception{
         XStream xs = new XStream();
 
         try {
@@ -18,6 +18,7 @@ public class NetWriter {
             xs.toXML(net, fos);
         }catch (Exception e) {
             e.printStackTrace();
+            throw new Exception("Cannot write to file ):");
         }
     }
 }

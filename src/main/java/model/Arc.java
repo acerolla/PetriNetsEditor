@@ -22,7 +22,7 @@ public class Arc {
 
     public void setRelation(Node source, Node target) throws Exception {
         if (source.getClass() == target.getClass()) {
-            throw new Exception("Cannot relate the same nodes");
+            throw new Exception("Cannot relate the same nodes.");
         }
 
         this.source = source;

@@ -155,12 +155,21 @@ public class MainPanel extends Application {
             }
         });
 
+        MenuItem closeMenuItem = fileMenu.getItems().get(3);
+        closeMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                System.exit(0);
+            }
+        });
+
         MenuItem refreshEditMenuItem = editMenu.getItems().get(0);
         refreshEditMenuItem.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 refresh();
             }
         });
+
+
 
 
         tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
@@ -197,7 +206,14 @@ public class MainPanel extends Application {
         File file = fileChooser.showSaveDialog(stage);
         if (file != null) {
             Net net = ((TabExtension)tabPane.getTabs().get(0)).getNet();
-            NetWriter.write(file, net);
+            try {
+                NetWriter.write(file, net);
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText(e.getMessage());
+                alert.setHeaderText("Alarm!!! IOException!!!");
+                alert.show();
+            }
         }
     }
 
@@ -209,14 +225,21 @@ public class MainPanel extends Application {
                 return;
             }
             refresh();
-            Net net = NetReader.read(file);
-            TabExtension tab = (TabExtension) tabPane.getTabs().get(0);
-            tab.setNet(net);
-            tab.drawNet();
-            createTree(treeView.getRoot(), net);
+            try {
+                Net net = NetReader.read(file);
+                TabExtension tab = (TabExtension) tabPane.getTabs().get(0);
+                tab.setNet(net);
+                tab.drawNet();
+                createTree(treeView.getRoot(), net);
 
-            Place.setPlaceId(net.getLastPlace());
-            Transition.setTransitionId(net.getLastTransition());
+                Place.setPlaceId(net.getLastPlace(0));
+                Transition.setTransitionId(net.getLastTransition(0));
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText(e.getMessage());
+                alert.setHeaderText("Alarm!!! IOException!!!");
+                alert.show();
+            }
         }
     }
 

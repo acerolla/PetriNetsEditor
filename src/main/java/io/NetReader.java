@@ -11,7 +11,7 @@ import java.io.FileInputStream;
  */
 public class NetReader {
 
-    public static Net read(File file) {
+    public static Net read(File file) throws Exception {
 
         Net net = new Net();
         XStream xs = new XStream();
@@ -21,7 +21,7 @@ public class NetReader {
             FileInputStream fis = new FileInputStream(file);
             xs.fromXML(fis, net);
         } catch(Exception e) {
-            e.printStackTrace();
+            throw new Exception("Cannot read this file ):");
         }
         return net;
     }

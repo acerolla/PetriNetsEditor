@@ -119,8 +119,8 @@ public abstract class NodeGUI {
         tab.getNodesGUI().remove(this);
         tab.getNet().removeNode(node);
         TabExtension outer = (TabExtension) tab.getTabPane().getTabs().get(0);
-        Place.setPlaceId(outer.getNet().getLastPlace());
-        Transition.setTransitionId(outer.getNet().getLastTransition());
+        Place.setPlaceId(outer.getNet().getLastPlace(0));
+        Transition.setTransitionId(outer.getNet().getLastTransition(0));
     }
 
     public String toString() {

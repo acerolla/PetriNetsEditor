@@ -60,8 +60,8 @@ public class TreeItemImpl extends TreeCell<String> {
                 place.removeToken(netToken);
                 getTreeItem().getParent().getChildren().remove(getTreeItem());
 
-                Place.setPlaceId(((TabExtension)TreeItemImpl.this.main.getTabPane().getTabs().get(0)).getNet().getLastPlace());
-                Transition.setTransitionId(((TabExtension)TreeItemImpl.this.main.getTabPane().getTabs().get(0)).getNet().getLastTransition());
+                Place.setPlaceId(((TabExtension)TreeItemImpl.this.main.getTabPane().getTabs().get(0)).getNet().getLastPlace(0));
+                Transition.setTransitionId(((TabExtension)TreeItemImpl.this.main.getTabPane().getTabs().get(0)).getNet().getLastTransition(0));
 
                 MainPanel.lastAction("Net(" + getTreeItem().getValue() + ") removed.");
             }

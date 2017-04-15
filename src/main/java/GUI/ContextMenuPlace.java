@@ -1,19 +1,11 @@
 package GUI;
 
-import GUI.PlaceWithGUI;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import model.BasicToken;
 import model.NetToken;
-import model.Place;
-import model.Token;
 
 import java.util.ArrayList;
 import java.util.List;

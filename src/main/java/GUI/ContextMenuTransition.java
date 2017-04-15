@@ -1,6 +1,5 @@
 package GUI;
 
-import GUI.TransitionWithGUI;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;

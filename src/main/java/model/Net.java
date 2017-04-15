@@ -48,8 +48,8 @@ public class Net {
         return nodes;
     }
 
-    public int getLastPlace() {
-        int id = 0;
+    public int getLastPlace(int id) {
+        //int id = 0;
         for (Node node : getNodes()) {
             if (node.getClass() == Place.class) {
                 if (node.getId() >= id) {
@@ -57,7 +57,7 @@ public class Net {
                 }
                 for (Token token : ((Place)node).getTokens()) {
                     if (token.getClass() == NetToken.class) {
-                        id = ((NetToken)token).getInnerNet().getLastPlace();
+                        id = ((NetToken)token).getInnerNet().getLastPlace(id);
                     }
                 }
             }
@@ -66,8 +66,8 @@ public class Net {
         return  id;
     }
 
-    public int getLastTransition() {
-        int id = 0;
+    public int getLastTransition(int id) {
+        //int id = 0;
         for (Node node : getNodes()) {
             if (node.getClass() == Transition.class) {
                 if (node.getId() >= id) {
@@ -76,7 +76,7 @@ public class Net {
             } else {
                 for (Token token : ((Place)node).getTokens()) {
                     if (token.getClass() == NetToken.class) {
-                        id = ((NetToken)token).getInnerNet().getLastTransition();
+                        id = ((NetToken)token).getInnerNet().getLastTransition(id);
                     }
                 }
             }

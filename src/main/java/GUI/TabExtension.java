@@ -1,6 +1,7 @@
 package GUI;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.input.MouseButton;
@@ -112,12 +113,13 @@ public class TabExtension extends Tab {
             try {
                 if (firstNode == node) {
                     connector = false;
-                    throw new Exception("Cannot relate this");
+                    throw new Exception("Sorry ); \r\nIt's impossible to connect "
+                            + node.toString() + " and " + node.toString());
                 }
                 for (Arc arc : firstNode.getNode().getArcs()) {
                     if (arc.getTarget() == node.getNode()) {
                         connector = false;
-                        throw new Exception("Already related");
+                        throw new Exception(firstNode.toString() + " and " + node.toString() + " already connected.");
                     }
                 }
                 Arc arc = new Arc(firstNode.getNode(), node.getNode());
@@ -127,7 +129,10 @@ public class TabExtension extends Tab {
                 anchorPane.getChildren().add(arcGUI.getGroup());
             } catch (Exception e) {
                 connector = false;
-                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText(e.getMessage());
+                alert.setHeaderText("Alarm!!! Connect exception!!!");
+                alert.show();
             }
             firstNode = null;
             isClicked = Boolean.FALSE;
