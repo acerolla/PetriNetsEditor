@@ -26,8 +26,7 @@ public class PlaceGUI extends NodeGUI {
 
     private ContextMenuPlace contextMenu;
 
-    private int countNetToken,
-                countBasicToken;
+
 
 
 
@@ -54,21 +53,21 @@ public class PlaceGUI extends NodeGUI {
         initialize();
     }
 
-    public int getCountNetToken() {
+/*    public int getCountNetToken() {
         return countNetToken;
     }
 
     public int getCountBasicToken() {
         return countBasicToken;
     }
-
+*/
     public void addToken(Token token) {
         ((Place)node).addToken(token);
         if (token.getClass() == BasicToken.class) {
-            countBasicToken ++ ;
+            ((Place)node).incCountBasicToken();
             drawTokens();
         } else {
-            countNetToken ++ ;
+            ((Place) node).incCountNetToken();
         }
     }
 
@@ -100,8 +99,8 @@ public class PlaceGUI extends NodeGUI {
             if (label.getText().equals("1")) {
                 root.getChildren().remove(label);
             } else {
-                countBasicToken -- ;
-                label.setText("" + countBasicToken);
+                ((Place)node).decCountBasicToken();
+                label.setText("" + ((Place) node).getCountBasicToken());
             }
             for (Token token : ((Place)getNode()).getTokens()) {
                 if (token.getClass() == BasicToken.class) {
@@ -123,10 +122,10 @@ public class PlaceGUI extends NodeGUI {
             }
         }
 
-        countBasicToken = bCount;
-        countNetToken = nCount;
+        ((Place) node).setCountBasicToken(bCount);
+        ((Place) node).setCountNetToken(nCount);
 
-        if (countBasicToken == 1) {
+        if (((Place) node).getCountBasicToken() == 1) {
             Label label = new Label("1");
             label.setLayoutX(-5);
             label.setLayoutY(-8);
@@ -134,11 +133,11 @@ public class PlaceGUI extends NodeGUI {
             circle.setFill(Paint.valueOf("BLACK"));
             label.setGraphic(circle);
             root.getChildren().add(label);
-        } else if (countBasicToken > 1 && root.getChildren().size() == 3) {
+        } else if (((Place) node).getCountBasicToken() > 1 && root.getChildren().size() == 3) {
             Label label = (Label)root.getChildren().get(2);
-            label.setText("" + countBasicToken);
-        } else if (countBasicToken > 1 && root.getChildren().size() == 2) {
-            Label label = new Label("" + countBasicToken);
+            label.setText("" + ((Place) node).getCountBasicToken());
+        } else if (((Place) node).getCountBasicToken() > 1 && root.getChildren().size() == 2) {
+            Label label = new Label("" + ((Place) node).getCountBasicToken());
             label.setLayoutX(-5);
             label.setLayoutY(-8);
             Circle circle = new Circle(5);

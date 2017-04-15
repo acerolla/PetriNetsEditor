@@ -30,8 +30,9 @@ public class TreeItemImpl extends TreeCell<String> {
         menu.getItems().add(removeItem);
         removeItem.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                System.out.println("Remove");
+                MainPanel.lastAction("Net(" + getTreeItem().getValue() + ") is removing.");
                 if (getTreeItem().getValue().equalsIgnoreCase("Outer Net")) {
+                    MainPanel.lastAction("Cannot remove Outer Net.");
                     return;
                 }
 
@@ -58,6 +59,7 @@ public class TreeItemImpl extends TreeCell<String> {
 
 
                 place.removeToken(netToken);
+                place.decCountNetToken();
                 getTreeItem().getParent().getChildren().remove(getTreeItem());
 
                 Place.setPlaceId(((TabExtension)TreeItemImpl.this.main.getTabPane().getTabs().get(0)).getNet().getLastPlace(0));

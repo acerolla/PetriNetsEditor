@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import model.BasicToken;
 import model.NetToken;
+import model.Place;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class ContextMenuPlace extends ContextMenu {
 
                 parent.addToken(netToken);
 
-                tab.setText("P" + parent.getNode().getId() + "-NT:" + parent.getCountNetToken());
+                tab.setText("P" + parent.getNode().getId() + "-NT:" + ((Place)parent.getNode()).getCountNetToken());
                 netToken.setLabel(tab.getText());
 
                 TreeView<String> treeView = (TreeView<String>) ((BorderPane)(parent.getTab().getTabPane().getParent()).getParent()).getLeft();

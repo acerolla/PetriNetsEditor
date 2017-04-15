@@ -10,6 +10,9 @@ public class Place extends Node {
 
     private static int placeId;
 
+    private int countNetToken,
+            countBasicToken;
+
     private List<Token> tokens;
     public Place() {
         super(++placeId);
@@ -35,4 +38,47 @@ public class Place extends Node {
     public static void setPlaceId(int id) {
         placeId = id;
     }
+
+    public int getCountNetToken() {
+        return countNetToken;
+    }
+
+    public int getCountBasicToken() {
+        return countBasicToken;
+    }
+
+    public void setCountNetToken(int countNetToken) {
+        this.countNetToken = countNetToken;
+    }
+
+    public void setCountBasicToken(int countBasicToken) {
+        this.countBasicToken = countBasicToken;
+    }
+
+    public void incCountNetToken() {
+        countNetToken ++ ;
+    }
+
+    public void decCountNetToken() {
+        countNetToken -- ;
+        for (Token token : tokens) {
+            if (token.getClass() == NetToken.class) {
+                String subId = ((NetToken)token).getLabel().substring(((NetToken) token).getLabel().indexOf(':') + 1);
+                int id = Integer.parseInt(subId);
+                if (id > countNetToken) {
+                    countNetToken ++ ;
+                }
+            }
+        }
+    }
+
+    public void incCountBasicToken() {
+        countBasicToken ++ ;
+    }
+
+    public void decCountBasicToken() {
+        countBasicToken -- ;
+    }
+
+
 }
