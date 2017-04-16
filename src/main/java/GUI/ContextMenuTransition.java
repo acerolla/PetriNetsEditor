@@ -25,6 +25,7 @@ public class ContextMenuTransition extends ContextMenu{
         itemSelfRemove.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 parent.removeNode();
+                MainPanel.setContentVBox(new VBoxNet(parent.getTab().getNet()));
                 MainPanel.lastAction( parent.toString() + " successfully removed");
             }
         });

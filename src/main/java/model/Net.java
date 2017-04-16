@@ -8,10 +8,16 @@ import java.util.List;
  * Created by Acerolla on 27.03.2017.
  */
 public class Net {
+
+    private String Id;
+    private String label;
+
     private List<Node> nodes;
 
     public Net() {
         nodes = new ArrayList<Node>();
+        Id = "";
+        label = "";
     }
 
     public void addNode(Node node) {
@@ -83,5 +89,21 @@ public class Net {
         }
 
         return  id;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

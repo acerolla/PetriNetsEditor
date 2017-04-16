@@ -53,6 +53,9 @@ public class ContextMenuPlace extends ContextMenu {
                 newItem.setExpanded(true);
                 out.getChildren().add(newItem);
 
+                parent.getTab().getTabPane().getSelectionModel().select(tab);
+                //MainPanel.setContentVBox(new VBoxNet(tab.getNet()));
+
                 MainPanel.lastAction( "Net Token added in " + parent.toString());
 
 
@@ -93,6 +96,7 @@ public class ContextMenuPlace extends ContextMenu {
                 parent.findAllTabs(tabs);
                 parent.getTab().getTabPane().getTabs().removeAll(tabs);
                 parent.removeNode();
+                MainPanel.setContentVBox(new VBoxNet(parent.getTab().getNet()));
                 MainPanel.lastAction( parent.toString() + " successfully removed.");
             }
         });

@@ -193,12 +193,23 @@ public class TabExtension extends Tab {
                             transitionFlag = false;
                         }
                     } else if (event.getClickCount() == 2) {
+                        boolean isNode = false;
                         for (NodeGUI nodeGUI : nodesGUI) {
                             if (nodeGUI.getRoot().contains(new Point2D(
                                     event.getX() - nodeGUI.getRoot().getLayoutX(),
                                     event.getY() - nodeGUI.getRoot().getLayoutY()))) {
+                                isNode = true;
                                 MainPanel.lastAction(nodeGUI.toString() + " touched.");
+                                if (nodeGUI.getNode().getClass() == Place.class) {
+                                    MainPanel.setContentVBox(new VBoxPlace((Place)nodeGUI.getNode()));
+                                } else {
+                                    MainPanel.setContentVBox(new VBoxTransition((Transition)nodeGUI.getNode()));
+                                }
                             }
+                        }
+                        if (!isNode) {
+                            MainPanel.lastAction(net.getId() + " touched.");
+                            MainPanel.setContentVBox(new VBoxNet(getNet()));
                         }
                     }
                 }

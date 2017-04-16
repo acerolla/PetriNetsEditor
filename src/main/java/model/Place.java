@@ -13,10 +13,13 @@ public class Place extends Node {
     private int countNetToken,
             countBasicToken;
 
+    private String label;
+
     private List<Token> tokens;
     public Place() {
         super(++placeId);
         tokens = new ArrayList<Token>();
+        label = "";
     }
 
     public void addToken(Token token) {
@@ -81,4 +84,13 @@ public class Place extends Node {
     }
 
 
+    @Override
+    public String getLabel() {
+        return label;
+    }
+
+    @Override
+    public void setLabel(String label) {
+        this.label = label;
+    }
 }

@@ -35,13 +35,17 @@ import java.util.List;
  */
 public class MainPanel extends Application {
 
-    private Pane root;
+    private static Pane root;
 
     private TabPane tabPane;
+    private static ScrollPane scrollPane;
 
 
     private TreeView<String> treeView;
     private TreeItem<String> rootItem;
+
+    private HBox hBox;
+    private static VBox vBox;
 
     private TabExtension activeTab;
 
@@ -67,10 +71,20 @@ public class MainPanel extends Application {
 
         tabPane.getTabs().clear();
 
+        hBox = (HBox) ((BorderPane) root.getChildren().get(0)).getChildren().get(1);
+        scrollPane = (ScrollPane)(((BorderPane) root.getChildren().get(0)).getChildren().get(2));
+        vBox = (VBox) scrollPane.getContent();
+        hBox.setStyle("-fx-background-color: lightgrey;");
+        vBox.setStyle("-fx-background-color: lightgrey;");
+
+
         activeTab = new TabExtension();
         activeTab.setText("Outer Net");
+        activeTab.getNet().setId("Outer Net");
         activeTab.setClosable(false);
         tabPane.getTabs().add(activeTab);
+
+        MainPanel.setContentVBox(new VBoxNet(activeTab.getNet()));
 
         treeView = (TreeView<String>) root.getChildren().get(2);
         rootItem = new TreeItem<String>("Outer Net");
@@ -112,6 +126,8 @@ public class MainPanel extends Application {
                 activeTab.addTransitionClicked();
             }
         });
+
+
 
         final Button btn3 = (Button) ((HBox)((BorderPane)root.getChildren().get(0)).getChildren().get(1)).getChildren().get(2);
         Group group = new Group();
@@ -175,6 +191,9 @@ public class MainPanel extends Application {
         tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
                 activeTab = (TabExtension) newValue;
+                if (activeTab != null) {
+                    MainPanel.setContentVBox(new VBoxNet(activeTab.getNet()));
+                }
             }
         });
 
@@ -185,8 +204,10 @@ public class MainPanel extends Application {
     private void refresh() {
         tabPane.getTabs().clear();
         activeTab = new TabExtension();
+        activeTab.getNet().setId("Outer Net");
         activeTab.setText("Outer Net");
         activeTab.setClosable(false);
+
         tabPane.getTabs().add(activeTab);
 
         rootItem = new TreeItem<String>("Outer Net");
@@ -199,6 +220,7 @@ public class MainPanel extends Application {
         });
         Place.setPlaceId(0);
         Transition.setTransitionId(0);
+        MainPanel.setContentVBox(new VBoxNet(activeTab.getNet()));
     }
 
     private void save(Stage stage) {
@@ -276,5 +298,11 @@ public class MainPanel extends Application {
 
     public static void lastAction(String text) {
         textField.setText("Last action:   " + text);
+    }
+
+    public static void setContentVBox(VBox vBox) {
+        scrollPane.setContent(vBox);
+        //((BorderPane) root.getChildren().get(0)).getChildren().remove(MainPanel.vBox);
+        //((BorderPane)root.getChildren().get(0)).setRight(vBox);
     }
 }

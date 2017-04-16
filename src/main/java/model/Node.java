@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by Acerolla on 27.03.2017.
@@ -52,5 +53,17 @@ public abstract class Node {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public String toString() {
+        String str = "";
+        if (getClass() == Place.class) {
+            str += "P";
+        } else {
+            str += "T";
+        }
+        str += Integer.toString(getId());
+
+        return str;
     }
 }

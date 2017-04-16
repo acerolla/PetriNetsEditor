@@ -58,14 +58,6 @@ public class PlaceGUI extends NodeGUI {
         initialize();
     }
 
-/*    public int getCountNetToken() {
-        return countNetToken;
-    }
-
-    public int getCountBasicToken() {
-        return countBasicToken;
-    }
-*/
     public void addToken(Token token) {
         ((Place)node).addToken(token);
         if (token.getClass() == BasicToken.class) {
@@ -98,11 +90,26 @@ public class PlaceGUI extends NodeGUI {
     }
 
     public void removeToken() {
+        if (((Place)node).getCountBasicToken() == 0) {
+            return;
+        }
+        ((Place)node).decCountBasicToken();
+
+        for (Token token : ((Place)getNode()).getTokens()) {
+            if (token.getClass() == BasicToken.class) {
+                ((Place)getNode()).removeToken(token);
+                drawTokens();
+                return;
+            }
+        }
+
+        /*
         if (basicTokenLabel == null) {
             return;
         } else {
             if (basicTokenLabel.getText().equals("1")) {
                 root.getChildren().remove(basicTokenLabel);
+                basicTokenLabel = null;
             } else {
                 ((Place)node).decCountBasicToken();
                 basicTokenLabel.setText("" + ((Place) node).getCountBasicToken());
@@ -113,17 +120,17 @@ public class PlaceGUI extends NodeGUI {
                     return;
                 }
             }
-        }
+        }*/
     }
 
     public void drawTokens() {
         int bCount = 0;
         int nCount = 0;
-        for (Token token : ((Place)getNode()).getTokens()) {
+        for (Token token : ((Place) getNode()).getTokens()) {
             if (token.getClass() == BasicToken.class) {
-                bCount ++ ;
+                bCount++;
             } else {
-                nCount ++ ;
+                nCount++;
             }
         }
 
@@ -156,9 +163,10 @@ public class PlaceGUI extends NodeGUI {
             netTokenLabel.setGraphic(circle);
             root.getChildren().add(netTokenLabel);
         }
-
-        if (((Place) node).getCountBasicToken() == 1) {
-
+        if (((Place) node).getCountBasicToken() == 0) {
+            root.getChildren().remove(basicTokenLabel);
+        } else if (((Place) node).getCountBasicToken() == 1) {
+            root.getChildren().remove(basicTokenLabel);
             basicTokenLabel = new Label("1");
             basicTokenLabel.setLayoutX(-5);
             basicTokenLabel.setLayoutY(-15);
@@ -180,6 +188,7 @@ public class PlaceGUI extends NodeGUI {
             root.getChildren().add(basicTokenLabel);
         }
     }
+
 
 
     void initialize() {

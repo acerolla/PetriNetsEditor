@@ -32,6 +32,13 @@
                </children>
             </HBox>
          </top>
+         <right>
+            <ScrollPane prefViewportHeight="325.0" prefViewportWidth="140.0">
+               <content>
+                  <VBox prefHeight="325.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
+               </content>
+            </ScrollPane>
+         </right>
       </BorderPane>
    </center>
    <top>
