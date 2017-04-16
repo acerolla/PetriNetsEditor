@@ -63,7 +63,7 @@ public class Place extends Node {
         countNetToken -- ;
         for (Token token : tokens) {
             if (token.getClass() == NetToken.class) {
-                String subId = ((NetToken)token).getLabel().substring(((NetToken) token).getLabel().indexOf(':') + 1);
+                String subId = ((NetToken)token).getId().substring(((NetToken) token).getId().indexOf(':') + 1);
                 int id = Integer.parseInt(subId);
                 if (id > countNetToken) {
                     countNetToken ++ ;

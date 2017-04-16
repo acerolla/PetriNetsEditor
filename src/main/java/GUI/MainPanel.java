@@ -249,7 +249,7 @@ public class MainPanel extends Application {
                 for (Token token : ((Place)node).getTokens()) {
                     if (token.getClass() == NetToken.class) {
                         TreeItem<String> newItem = new TreeItem<String>();
-                        newItem.setValue(((NetToken)token).getLabel());
+                        newItem.setValue(((NetToken)token).getId());
                         treeItem.getChildren().add(newItem);
                         createTree(newItem,((NetToken) token).getInnerNet());
                     }

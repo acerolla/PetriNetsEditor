@@ -1,6 +1,7 @@
 package GUI;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -190,6 +191,14 @@ public class TabExtension extends Tab {
                             MainPanel.lastAction(transition.toString() + " added.");
 
                             transitionFlag = false;
+                        }
+                    } else if (event.getClickCount() == 2) {
+                        for (NodeGUI nodeGUI : nodesGUI) {
+                            if (nodeGUI.getRoot().contains(new Point2D(
+                                    event.getX() - nodeGUI.getRoot().getLayoutX(),
+                                    event.getY() - nodeGUI.getRoot().getLayoutY()))) {
+                                MainPanel.lastAction(nodeGUI.toString() + " touched.");
+                            }
                         }
                     }
                 }

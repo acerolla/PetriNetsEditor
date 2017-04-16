@@ -45,7 +45,7 @@ public class ContextMenuPlace extends ContextMenu {
                 parent.addToken(netToken);
 
                 tab.setText("P" + parent.getNode().getId() + "-NT:" + ((Place)parent.getNode()).getCountNetToken());
-                netToken.setLabel(tab.getText());
+                netToken.setId(tab.getText());
 
                 TreeView<String> treeView = (TreeView<String>) ((BorderPane)(parent.getTab().getTabPane().getParent()).getParent()).getLeft();
                 findItem(treeView.getRoot(), parent.getTab().getText());

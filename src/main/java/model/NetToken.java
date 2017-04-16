@@ -5,14 +5,14 @@ package model;
  */
 public class NetToken extends Token {
     private Net innerNet;
-    private String label;
+    private String id;
 
-    public String getLabel() {
-        return label;
+    public String getId() {
+        return id;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Net getInnerNet() {

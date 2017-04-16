@@ -62,6 +62,15 @@ public class TreeItemImpl extends TreeCell<String> {
                 place.decCountNetToken();
                 getTreeItem().getParent().getChildren().remove(getTreeItem());
 
+                for (NodeGUI nodeGUI : TreeItemImpl.this.main.getActiveTab().getNodesGUI()) {
+                    if (nodeGUI.getClass() == PlaceGUI.class) {
+                        if (place == nodeGUI.getNode()) {
+                            ((PlaceGUI)nodeGUI).drawTokens();
+                        }
+                    }
+                }
+
+
                 Place.setPlaceId(((TabExtension)TreeItemImpl.this.main.getTabPane().getTabs().get(0)).getNet().getLastPlace(0));
                 Transition.setTransitionId(((TabExtension)TreeItemImpl.this.main.getTabPane().getTabs().get(0)).getNet().getLastTransition(0));
 
@@ -171,9 +180,9 @@ public class TreeItemImpl extends TreeCell<String> {
     private void findNet(Place place) {
         for (Token token : place.getTokens()) {
             if (token.getClass() == NetToken.class) {
-                if (((NetToken)token).getLabel().equals(getTreeItem().getValue())) {
+                if (((NetToken)token).getId().equals(getTreeItem().getValue())) {
                     net = ((NetToken)token).getInnerNet();
-                    text = ((NetToken)token).getLabel();
+                    text = ((NetToken)token).getId();
                 } else {
                     for (Node node : ((NetToken)token).getInnerNet().getNodes()) {
                         if (node.getClass() == Place.class) {
@@ -189,7 +198,7 @@ public class TreeItemImpl extends TreeCell<String> {
     private void findToken(Place place) {
         for (Token token : place.getTokens()) {
             if (token.getClass() == NetToken.class) {
-                if (((NetToken)token).getLabel().equals(getTreeItem().getValue())) {
+                if (((NetToken)token).getId().equals(getTreeItem().getValue())) {
                     netToken = (NetToken) token;
                     this.place = place;
                 } else {
@@ -207,7 +216,7 @@ public class TreeItemImpl extends TreeCell<String> {
         for (Token token : place.getTokens()) {
             if (token.getClass() == NetToken.class) {
                 for (Tab tab : main.getTabPane().getTabs()) {
-                    if (tab.getText() == ((NetToken)token).getLabel()) {
+                    if (tab.getText() == ((NetToken)token).getId()) {
                         forRemove.add(tab);
                     }
                 }
