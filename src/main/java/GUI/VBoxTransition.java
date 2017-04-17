@@ -1,9 +1,10 @@
 package GUI;
 
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import model.Arc;
 import model.Place;
@@ -19,6 +20,10 @@ public class VBoxTransition extends VBox {
 
     Label transitionIdLabel;
     TextField transitionIdField;
+
+    Label neededTokenLabel;
+    TextField neededTokenField;
+    Button submitNeededToken;
 
     public VBoxTransition(Transition transition) {
         super(5);
@@ -40,7 +45,29 @@ public class VBoxTransition extends VBox {
         //netIdField.setStyle("-fx-background-color: lightgrey;");
         getChildren().add(transitionIdField);
 
-        
+        getChildren().add(new Label());
+
+        neededTokenLabel = new Label("Tokens needed:");
+        getChildren().add(neededTokenLabel);
+        neededTokenField = new TextField("" + transition.getCountNeededToken());
+        getChildren().add(neededTokenField);
+        submitNeededToken = new Button("Submit");
+        submitNeededToken.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                try {
+                    transition.setCountNeededToken(Integer.parseInt(neededTokenField.getText()));
+                    if (transition.getCountNeededToken() < 1) {
+                        throw new Exception("");
+                    }
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Alarm!!!");
+                    alert.setContentText("Wrong format");
+                    alert.show();
+                }
+            }
+        });
+        getChildren().add(submitNeededToken);
 
     }
 }

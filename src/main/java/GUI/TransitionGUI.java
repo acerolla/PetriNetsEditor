@@ -63,4 +63,12 @@ public class TransitionGUI extends NodeGUI {
 
 
     }
+
+    public int getCountNeededToken() {
+        return ((Transition)node).getCountNeededToken();
+    }
+
+    public void setCountNeededToken(int countNeededToken) {
+        ((Transition)node).setCountNeededToken(countNeededToken);
+    }
 }

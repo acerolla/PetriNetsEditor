@@ -256,6 +256,7 @@ public class MainPanel extends Application {
 
                 Place.setPlaceId(net.getLastPlace(0));
                 Transition.setTransitionId(net.getLastTransition(0));
+                MainPanel.setContentVBox(new VBoxNet(net));
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText(e.getMessage());

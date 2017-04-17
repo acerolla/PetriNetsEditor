@@ -102,14 +102,14 @@ public class TreeItemImpl extends TreeCell<String> {
 
     @Override
     public void startEdit() {
-        super.startEdit();
+/*        super.startEdit();
 
         if (textField == null) {
             createTextField();
         }
         setText(null);
         setGraphic(textField);
-        textField.selectAll();
+        textField.selectAll();*/
     }
 
     @Override
@@ -175,6 +175,7 @@ public class TreeItemImpl extends TreeCell<String> {
         newTab.setText(text);
         main.getTabPane().getTabs().add(newTab);
         newTab.drawNet();
+        TreeItemImpl.this.main.getTabPane().getSelectionModel().select(newTab);
     }
 
     private void findNet(Place place) {
